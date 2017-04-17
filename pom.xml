@@ -26,7 +26,9 @@
 	<version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>jdbc-repository</module>
-    </modules>
+		<module>spring-data-jdbc-reflection</module>
+		<module>spring-data-jdbc-repository</module>
+	</modules>
     <packaging>pom</packaging>
 
 	<name>spring-data-jdbc</name>
