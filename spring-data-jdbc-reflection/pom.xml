@@ -17,8 +17,8 @@
   ~  */
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-data-jdbc</artifactId>
@@ -28,6 +28,55 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-data-jdbc-reflection</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring.data.jdbc.repository.version>0.6.0-SNAPSHOT</spring.data.jdbc.repository.version>
+        <guava.version>14.0.1</guava.version>
+    </properties>
+
+    <dependencies>
+        <!-- <dependency> -->
+        <!-- <groupId>cz.jirutka.spring</groupId> -->
+        <!-- <artifactId>spring-data-jdbc-repository</artifactId> -->
+        <!-- <version>${spring.data.jdbc.repository.version}</version> -->
+        <!-- </dependency> -->
+        <dependency>
+            <groupId>com.rubasace.spring</groupId>
+            <artifactId>spring-data-jdbc-repository</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+
+        <repository>
+            <id>jfrog-oss-snapshot-local</id>
+            <name>JFrog OSS repository for snapshots</name>
+            <url>https://oss.jfrog.org/oss-snapshot-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
 
 
 </project>

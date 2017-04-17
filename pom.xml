@@ -17,19 +17,19 @@
   ~  */
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.rubasace.spring</groupId>
 	<artifactId>spring-data-jdbc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>jdbc-repository</module>
-		<module>spring-data-jdbc-reflection</module>
 		<module>spring-data-jdbc-repository</module>
+		<module>spring-data-jdbc-reflection</module>
+		<module>jdbc-repository</module>
 	</modules>
-    <packaging>pom</packaging>
+	<packaging>pom</packaging>
 
 	<name>spring-data-jdbc</name>
 	<description>spring-data-jpa migration to jdbc using JdbcTemplate</description>
@@ -39,5 +39,20 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.rubasace.spring</groupId>
+				<artifactId>spring-data-jdbc-repository</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.rubasace.spring</groupId>
+				<artifactId>spring-data-jdbc-reflection</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
