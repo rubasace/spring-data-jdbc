@@ -15,11 +15,11 @@
  */
 package com.rubasace.spring.data.jdbc.repository.support;
 
-import com.rubasace.spring.data.jdbc.repository.model.BaseReflectionJdbcRepository;
+import com.rubasace.spring.data.jdbc.TableDescription;
+import com.rubasace.spring.data.jdbc.model.BaseReflectionJdbcRepository;
 import com.rubasace.spring.data.jdbc.repository.query.JdbcQueryLookupStrategy;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGenerator;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGeneratorFactory;
-import com.rubasace.spring.data.jdbc.TableDescription;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;

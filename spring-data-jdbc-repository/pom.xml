@@ -115,6 +115,11 @@
             <artifactId>spring-data-commons</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <!--//// Testing ////-->
 
         <dependency>

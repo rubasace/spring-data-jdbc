@@ -1,6 +1,6 @@
 package com.rubasace.spring.data.jdbc.repository;
 
-import com.rubasace.spring.data.jdbc.repository.model.BaseReflectionJdbcRepository;
+import com.rubasace.spring.data.jdbc.model.BaseReflectionJdbcRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
