@@ -2,8 +2,9 @@ package com.rubasace.spring.data.jdbc.repository.query.annotated;
 
 import com.rubasace.spring.data.jdbc.Query;
 import com.rubasace.spring.data.jdbc.repository.query.JdbcQueryMethod;
+import com.rubasace.spring.data.jdbc.repository.query.annotated.JdbcAnnotatedRepositoryQuery.Strategy;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGenerator;
-import cz.jirutka.spring.data.jdbc.TableDescription;
+import com.rubasace.spring.data.jdbc.TableDescription;
 import org.apache.commons.lang3.ClassUtils;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.QueryMethod;
@@ -64,22 +65,22 @@ public class JdbcAnnotatedRepositoryQueryCreator {
         }
         // TODO think a better way of handling this by the method name
         if (Number.class.isAssignableFrom(returnType)) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.COUNT;
+            return Strategy.COUNT;
         }
         if (Boolean.class.isAssignableFrom(returnType)) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.EXISTS_QUERY;
+            return Strategy.EXISTS_QUERY;
         }
         if (method.isCollectionQuery()) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.COLLECTION_QUERY;
+            return Strategy.COLLECTION_QUERY;
         }
         if (method.isQueryForEntity()) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.SINGLE_QUERY;
+            return Strategy.SINGLE_QUERY;
         }
         if (method.isPageQuery()) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.PAGE_QUERY;
+            return Strategy.PAGE_QUERY;
         }
         if (void.class.isAssignableFrom(returnType)) {
-            return JdbcAnnotatedRepositoryQuery.Strategy.UPDATE_QUERY;
+            return Strategy.UPDATE_QUERY;
         }
         throw new IllegalArgumentException("Don't know what strategy to follow!!");
     }

@@ -83,8 +83,8 @@ public class DefaultSqlGenerator implements SqlGenerator {
 
     public String insert(TableDescription table, Map<String, Object> columns) {
 
-        return format("INSERT INTO %s (%s) VALUES (%s)", table.getTableName(),
-                      collectionToDelimitedString(columns.keySet(), COMMA), StringUtils.repeat("?", COMMA, columns.size()));
+        return String.format("INSERT INTO %s (%s) VALUES (%s)", table.getTableName(),
+                             collectionToDelimitedString(columns.keySet(), COMMA), StringUtils.repeat("?", COMMA, columns.size()));
     }
 
     public String selectAll(TableDescription table) {
