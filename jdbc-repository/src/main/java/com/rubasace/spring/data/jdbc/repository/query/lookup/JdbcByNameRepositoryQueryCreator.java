@@ -1,14 +1,14 @@
 package com.rubasace.spring.data.jdbc.repository.query.lookup;
 
+
+import com.rubasace.spring.data.jdbc.TableDescription;
 import com.rubasace.spring.data.jdbc.repository.query.JdbcQueryMethod;
 import com.rubasace.spring.data.jdbc.repository.query.lookup.JdbcByNameRepositoryQuery.Strategy;
 import com.rubasace.spring.data.jdbc.repository.query.lookup.ParameterProperties.SpecialLike;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGenerator;
 import com.rubasace.spring.data.jdbc.util.ReflectionMethodsUtils;
 import com.rubasace.spring.data.jdbc.util.SQLJavaNamingUtils;
-import com.rubasace.spring.data.jdbc.TableDescription;
 import org.apache.commons.lang3.ClassUtils;
-import org.springframework.cglib.core.Predicate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,12 +29,11 @@ import java.util.List;
 public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcByNameRepositoryQuery, String> {
 
     private final NamedParameterJdbcOperations template;
-    @SuppressWarnings("rawtypes")
     private final RowMapper rowMapper;
     private final SqlGenerator builder;
     private final TableDescription tableDescription;
     private final JdbcQueryMethod method;
-    private JdbcByNameRepositoryQuery.Strategy strategy;
+    private Strategy strategy;
 
     private PartTree tree;
 
@@ -59,7 +58,7 @@ public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcB
         this.strategy = chooseStrategy(tree, method);
     }
 
-    private JdbcByNameRepositoryQuery.Strategy chooseStrategy(PartTree tree, JdbcQueryMethod method) {
+    private Strategy chooseStrategy(PartTree tree, JdbcQueryMethod method) {
         if (tree.isCountProjection()) {
             return Strategy.COUNT;
         }

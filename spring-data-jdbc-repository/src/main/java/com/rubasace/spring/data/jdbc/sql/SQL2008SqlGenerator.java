@@ -22,6 +22,8 @@ import org.springframework.data.domain.Sort;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
+import static java.lang.String.format;
+
 /**
  * SQL Generator for DB servers that support the SQL:2008 standard OFFSET
  * feature: Apache Derby, Microsoft SQL Server 2012, and Oracle 12c.

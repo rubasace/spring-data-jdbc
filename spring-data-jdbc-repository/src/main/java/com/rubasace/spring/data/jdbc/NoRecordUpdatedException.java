@@ -17,6 +17,7 @@ package com.rubasace.spring.data.jdbc;
 
 import org.springframework.dao.IncorrectUpdateSemanticsDataAccessException;
 
+import static java.lang.String.format;
 import static org.springframework.util.StringUtils.arrayToCommaDelimitedString;
 
 /**

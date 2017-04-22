@@ -22,6 +22,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.List;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 /**

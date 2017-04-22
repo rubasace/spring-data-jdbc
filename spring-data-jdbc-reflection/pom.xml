@@ -47,6 +47,10 @@
             <artifactId>spring-data-jdbc-repository</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.rubasace.spring</groupId>
+            <artifactId>spring-data-jdbc-reflection</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>

@@ -22,6 +22,8 @@ import org.springframework.data.domain.Sort;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
+import static java.lang.String.format;
+
 /**
  * SQL Generator for Oracle up to 11g. If you have 12g or newer, then use
  * {@link SQL2008SqlGenerator}.
