@@ -15,6 +15,7 @@
  */
 package cz.jirutka.spring.data.jdbc
 
+import com.rubasace.spring.data.jdbc.TableDescription
 import cz.jirutka.spring.data.jdbc.fixtures.CommentWithUserRepository
 import groovy.transform.AnnotationCollector
 import org.springframework.context.annotation.Configuration

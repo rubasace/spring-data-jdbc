@@ -15,7 +15,7 @@
 // */
 //package cz.jirutka.spring.data.jdbc.sql
 //
-//import cz.jirutka.spring.data.jdbc.TableDescription
+//import TableDescription
 //import org.springframework.data.domain.Pageable
 //import org.springframework.data.domain.Sort
 //

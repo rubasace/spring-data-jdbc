@@ -17,7 +17,7 @@ package cz.jirutka.spring.data.jdbc.internal
 
 import spock.lang.Specification
 
-import static cz.jirutka.spring.data.jdbc.internal.IterableUtils.toList
+import static com.rubasace.spring.data.jdbc.internal.IterableUtils.toList
 
 class IterableUtilsTest extends Specification {
 

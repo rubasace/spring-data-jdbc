@@ -18,7 +18,7 @@ package cz.jirutka.spring.data.jdbc.internal
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static cz.jirutka.spring.data.jdbc.internal.StringUtils.repeat
+import static com.rubasace.spring.data.jdbc.internal.StringUtils.repeat
 
 @Unroll
 class StringUtilsTest extends Specification {

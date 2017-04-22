@@ -16,6 +16,7 @@
  */
 package cz.jirutka.spring.data.jdbc
 
+import com.rubasace.spring.data.jdbc.NoRecordUpdatedException
 import cz.jirutka.spring.data.jdbc.fixtures.CommentRepository
 import cz.jirutka.spring.data.jdbc.fixtures.User
 import cz.jirutka.spring.data.jdbc.fixtures.UserRepository

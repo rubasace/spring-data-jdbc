@@ -16,7 +16,7 @@
 package cz.jirutka.spring.data.jdbc
 
 import cz.jirutka.spring.data.jdbc.config.AbstractTestConfig
-import cz.jirutka.spring.data.jdbc.sql.LimitOffsetSqlGenerator
+import com.rubasace.spring.data.jdbc.sql.LimitOffsetSqlGenerator
 import cz.jirutka.spring.data.jdbc.sql.SqlGeneratorFactoryIT
 import groovy.transform.AnnotationCollector
 import org.h2.jdbcx.JdbcDataSource

@@ -15,10 +15,11 @@
  */
 package cz.jirutka.spring.data.jdbc
 
+import com.rubasace.spring.data.jdbc.TableDescription
 import cz.jirutka.spring.data.jdbc.config.AbstractTestConfig
 import cz.jirutka.spring.data.jdbc.fixtures.CommentRepository
 import cz.jirutka.spring.data.jdbc.fixtures.CommentWithUserRepository
-import cz.jirutka.spring.data.jdbc.sql.SQL2008SqlGenerator
+import com.rubasace.spring.data.jdbc.sql.SQL2008SqlGenerator
 import cz.jirutka.spring.data.jdbc.sql.SqlGeneratorFactoryIT
 import groovy.transform.AnnotationCollector
 import org.springframework.context.annotation.Bean
