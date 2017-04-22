@@ -1,4 +1,4 @@
-package com.rubasace.spring.data.jdbc.repository.strategies;
+package com.rubasace.spring.data.jdbc.repository.strategy.crud;
 
 import com.rubasace.spring.data.jdbc.util.EntityUtils;
 import org.springframework.data.repository.core.EntityInformation;

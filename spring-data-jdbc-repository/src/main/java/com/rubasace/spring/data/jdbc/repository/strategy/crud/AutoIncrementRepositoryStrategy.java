@@ -1,4 +1,4 @@
-package com.rubasace.spring.data.jdbc.repository.strategies;
+package com.rubasace.spring.data.jdbc.repository.strategy.crud;
 
 import com.rubasace.spring.data.jdbc.model.JdbcEntityInformation;
 import com.rubasace.spring.data.jdbc.util.GeneratedValueUtil;
