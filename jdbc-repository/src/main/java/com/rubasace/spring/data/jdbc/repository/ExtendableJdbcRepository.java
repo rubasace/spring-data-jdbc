@@ -1,6 +1,5 @@
 package com.rubasace.spring.data.jdbc.repository;
 
-import com.rubasace.spring.data.jdbc.model.BaseReflectionJdbcRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,9 +9,9 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BaseExtendableJdbcRepository<T, ID extends Serializable> extends BaseReflectionJdbcRepository<T, ID> {
+public class ExtendableJdbcRepository<T, ID extends Serializable> extends ReflectionJdbcRepository<T, ID> {
 
-    public BaseExtendableJdbcRepository(Class<T> entityClass) {
+    public ExtendableJdbcRepository(Class<T> entityClass) {
         super(entityClass);
     }
 

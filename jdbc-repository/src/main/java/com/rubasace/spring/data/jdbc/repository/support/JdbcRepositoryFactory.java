@@ -16,7 +16,7 @@
 package com.rubasace.spring.data.jdbc.repository.support;
 
 import com.rubasace.spring.data.jdbc.TableDescription;
-import com.rubasace.spring.data.jdbc.model.BaseReflectionJdbcRepository;
+import com.rubasace.spring.data.jdbc.repository.ReflectionJdbcRepository;
 import com.rubasace.spring.data.jdbc.repository.query.JdbcQueryLookupStrategy;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGenerator;
 import com.rubasace.spring.data.jdbc.repository.sql.SqlGeneratorFactory;
@@ -50,11 +50,11 @@ public class JdbcRepositoryFactory extends RepositoryFactorySupport {
     private static final String FIELD_ROWMAPPER = "rowMapper";
     private static final String FIELD_TABLE_DESCRIPTION = "table";
 
-    private static final Class<?> BASE_REPOSITORY_CLASS = BaseReflectionJdbcRepository.class;
+    private static final Class<?> BASE_REPOSITORY_CLASS = ReflectionJdbcRepository.class;
 
     private DataSource datasource;
     private Class<?> entityClass;
-    private BaseReflectionJdbcRepository repository;
+    private ReflectionJdbcRepository repository;
 
     private TableDescription tableDescription;
     private SqlGenerator generator;
@@ -79,7 +79,7 @@ public class JdbcRepositoryFactory extends RepositoryFactorySupport {
     protected Object getTargetRepository(RepositoryInformation metadata) {
         entityClass = metadata.getDomainType();
         @SuppressWarnings("rawtypes")
-        BaseReflectionJdbcRepository repository = getTargetRepositoryViaReflection(metadata, entityClass);
+        ReflectionJdbcRepository repository = getTargetRepositoryViaReflection(metadata, entityClass);
         repository.setDataSource(datasource);
         repository.afterPropertiesSet();
         this.repository = repository;
@@ -106,7 +106,7 @@ public class JdbcRepositoryFactory extends RepositoryFactorySupport {
     @SuppressWarnings("unchecked")
     private <T> T extractRepositoryField(
             @SuppressWarnings("rawtypes")
-                    BaseReflectionJdbcRepository repository, String fieldName) {
+                    ReflectionJdbcRepository repository, String fieldName) {
         try {
             try {
                 Field field = ReflectionUtils.findField(BASE_REPOSITORY_CLASS, fieldName);

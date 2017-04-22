@@ -23,7 +23,7 @@ import java.lang.annotation.Annotation;
 /**
  * {@link ImportBeanDefinitionRegistrar} to enable {@link EnableJpaRepositories} annotation.
  *
- * @author Oliver Gierke
+ * @author Ruben Pahino
  */
 class JdbcRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport {
 
