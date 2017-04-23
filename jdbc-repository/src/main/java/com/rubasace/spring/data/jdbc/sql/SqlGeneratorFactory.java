@@ -27,7 +27,7 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-//TODO getFromBeans so anyone can add custom generators if they want
+//TODO getFromBeans so anyone can add custom generators if they want (add order for sorting the injected list)
 public class SqlGeneratorFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlGeneratorFactory.class);
