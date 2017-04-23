@@ -19,6 +19,7 @@ package com.rubasace.spring.data.jdbc
 import com.rubasace.spring.data.jdbc.fixtures.CommentRepository
 import com.rubasace.spring.data.jdbc.fixtures.User
 import com.rubasace.spring.data.jdbc.fixtures.UserRepository
+import com.rubasace.spring.data.repository.NoRecordUpdatedException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

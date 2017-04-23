@@ -16,9 +16,9 @@
  */
 package com.rubasace.spring.data.jdbc.fixtures;
 
-import com.rubasace.spring.data.jdbc.BaseJdbcRepository;
-import com.rubasace.spring.data.jdbc.RowUnmapper;
-import com.rubasace.spring.data.jdbc.TableDescription;
+import com.rubasace.spring.data.repository.BaseJdbcRepository;
+import com.rubasace.spring.data.repository.RowUnmapper;
+import com.rubasace.spring.data.repository.TableDescription;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 

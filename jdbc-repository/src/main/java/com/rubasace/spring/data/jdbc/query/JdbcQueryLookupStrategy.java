@@ -15,10 +15,10 @@
  */
 package com.rubasace.spring.data.jdbc.query;
 
-import com.rubasace.spring.data.jdbc.TableDescription;
 import com.rubasace.spring.data.jdbc.query.annotated.JdbcAnnotatedRepositoryQueryCreator;
 import com.rubasace.spring.data.jdbc.query.lookup.JdbcByNameRepositoryQueryCreator;
 import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
+import com.rubasace.spring.data.repository.TableDescription;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.EvaluationContextProvider;

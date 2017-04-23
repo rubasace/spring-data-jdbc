@@ -1,12 +1,12 @@
 package com.rubasace.spring.data.jdbc.query.lookup;
 
 
-import com.rubasace.spring.data.jdbc.TableDescription;
 import com.rubasace.spring.data.jdbc.query.JdbcQueryMethod;
 import com.rubasace.spring.data.jdbc.query.lookup.JdbcByNameRepositoryQuery.Strategy;
 import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
-import com.rubasace.spring.data.jdbc.util.ReflectionMethodsUtils;
-import com.rubasace.spring.data.jdbc.util.SQLJavaNamingUtils;
+import com.rubasace.spring.data.repository.TableDescription;
+import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
+import com.rubasace.spring.data.repository.util.SQLJavaNamingUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,6 @@
 package com.rubasace.spring.data.jdbc.support;
 
-import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
+import com.rubasace.spring.data.repository.sql.SqlGenerator;
 import org.springframework.jdbc.core.JdbcOperations;
 
 class RepositoryData {

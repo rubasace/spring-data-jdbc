@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public interface SqlGenerator {
 
     /**
-     * This method is used by {@link SqlGeneratorFactory} to select a right
+     * This method is used by {@link com.rubasace.spring.data.repository.sql.SqlGeneratorFactory} to select a right
      * SQL Generator.
      *
      * @param metadata The database metadata.

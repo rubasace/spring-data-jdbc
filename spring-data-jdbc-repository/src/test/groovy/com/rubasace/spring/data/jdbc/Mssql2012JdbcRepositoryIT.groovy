@@ -15,10 +15,10 @@
  */
 package com.rubasace.spring.data.jdbc
 
-import com.zaxxer.hikari.HikariDataSource
 import com.rubasace.spring.data.jdbc.config.AbstractTestConfig
-import com.rubasace.spring.data.jdbc.sql.SQL2008SqlGenerator
 import com.rubasace.spring.data.jdbc.sql.SqlGeneratorFactoryIT
+import com.rubasace.spring.data.repository.sql.SQL2008SqlGenerator
+import com.zaxxer.hikari.HikariDataSource
 import groovy.transform.AnnotationCollector
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

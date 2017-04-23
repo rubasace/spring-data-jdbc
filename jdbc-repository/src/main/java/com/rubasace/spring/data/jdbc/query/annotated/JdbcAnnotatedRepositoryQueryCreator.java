@@ -1,9 +1,9 @@
 package com.rubasace.spring.data.jdbc.query.annotated;
 
 import com.rubasace.spring.data.jdbc.Query;
-import com.rubasace.spring.data.jdbc.TableDescription;
 import com.rubasace.spring.data.jdbc.query.JdbcQueryMethod;
 import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
+import com.rubasace.spring.data.repository.TableDescription;
 import org.apache.commons.lang3.ClassUtils;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.QueryMethod;

@@ -17,7 +17,7 @@
 
 package com.rubasace.spring.data.jdbc.sql
 
-import com.rubasace.spring.data.jdbc.sql.SqlGeneratorFactory
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 import spock.lang.Unroll

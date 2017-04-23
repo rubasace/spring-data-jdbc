@@ -17,8 +17,8 @@ package com.rubasace.spring.data.jdbc
 
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
 import com.rubasace.spring.data.jdbc.config.AbstractTestConfig
-import com.rubasace.spring.data.jdbc.sql.LimitOffsetSqlGenerator
 import com.rubasace.spring.data.jdbc.sql.SqlGeneratorFactoryIT
+import com.rubasace.spring.data.repository.sql.LimitOffsetSqlGenerator
 import groovy.transform.AnnotationCollector
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -18,7 +18,7 @@ package com.rubasace.spring.data.jdbc.internal
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static ObjectUtils.wrapToArray
+import static com.rubasace.spring.data.repository.internal.ObjectUtils.wrapToArray
 
 @Unroll
 class ObjectUtilsTest extends Specification {

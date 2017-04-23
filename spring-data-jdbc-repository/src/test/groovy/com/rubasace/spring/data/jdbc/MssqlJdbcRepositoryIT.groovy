@@ -16,6 +16,7 @@
 package com.rubasace.spring.data.jdbc
 
 import com.rubasace.spring.data.jdbc.fixtures.CommentWithUserRepository
+import com.rubasace.spring.data.repository.TableDescription
 import groovy.transform.AnnotationCollector
 import org.springframework.context.annotation.Configuration
 import org.springframework.test.context.ContextConfiguration
