@@ -19,6 +19,7 @@ import com.rubasace.spring.data.jdbc.query.annotated.JdbcAnnotatedRepositoryQuer
 import com.rubasace.spring.data.jdbc.query.lookup.JdbcByNameRepositoryQueryCreator;
 import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
 import com.rubasace.spring.data.repository.TableDescription;
+import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.EvaluationContextProvider;
@@ -104,19 +105,9 @@ public final class JdbcQueryLookupStrategy {
             this.tableDescription = tableDescription;
         }
 
-        /*
-         * (non-Javadoc)
-         *
-         * @see org.springframework.data.repository.query.QueryLookupStrategy#
-         * resolveQuery(java.lang.reflect.Method,
-         * org.springframework.data.repository.core.RepositoryMetadata,
-         * org.springframework.data.projection.ProjectionFactory,
-         * org.springframework.data.repository.core.NamedQueries)
-         */
         @Override
-        public final RepositoryQuery resolveQuery(Method method, RepositoryMetadata metadata,
-                                                  NamedQueries namedQueries) {
-            return resolveQuery(new JdbcQueryMethod(method, metadata), namedQueries);
+        public RepositoryQuery resolveQuery(final Method method, final RepositoryMetadata metadata, final ProjectionFactory factory, final NamedQueries namedQueries) {
+            return resolveQuery(new JdbcQueryMethod(method, metadata, factory), namedQueries);
         }
 
         protected abstract RepositoryQuery resolveQuery(JdbcQueryMethod method, NamedQueries namedQueries);

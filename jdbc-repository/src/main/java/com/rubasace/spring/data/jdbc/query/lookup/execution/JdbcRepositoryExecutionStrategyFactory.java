@@ -8,6 +8,7 @@ public class JdbcRepositoryExecutionStrategyFactory {
 
     }
 
+    //TODO refactor so no need of the enum in the middle
     public static JdbcRepositoryExecutionStrategy chooseStrategy(LookupStrategy lookupStrategy) {
         switch (lookupStrategy) {
             case COLLECTION_QUERY:

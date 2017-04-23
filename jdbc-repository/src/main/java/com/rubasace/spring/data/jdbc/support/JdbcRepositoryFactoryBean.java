@@ -37,6 +37,15 @@ public class JdbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extend
     @Autowired
     private DataSource datasource;
 
+    /**
+     * Creates a new {@link TransactionalRepositoryFactoryBeanSupport} for the given repository interface.
+     *
+     * @param repositoryInterface must not be {@literal null}.
+     */
+    protected JdbcRepositoryFactoryBean(final Class<? extends T> repositoryInterface) {
+        super(repositoryInterface);
+    }
+
     @Override
     protected RepositoryFactorySupport doCreateRepositoryFactory() {
         return new JdbcRepositoryFactory(datasource);

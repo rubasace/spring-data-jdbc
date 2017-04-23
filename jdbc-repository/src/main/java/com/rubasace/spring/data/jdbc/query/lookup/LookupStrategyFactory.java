@@ -1,7 +1,6 @@
 package com.rubasace.spring.data.jdbc.query.lookup;
 
 import com.rubasace.spring.data.jdbc.query.JdbcQueryMethod;
-import org.apache.commons.lang3.ClassUtils;
 import org.springframework.data.repository.query.parser.PartTree;
 
 class LookupStrategyFactory {
@@ -10,6 +9,7 @@ class LookupStrategyFactory {
 
     }
 
+    //TODO get rid of this so now we create directly the execution implementation
     static LookupStrategy chooseStrategy(PartTree tree, JdbcQueryMethod method) {
         if (tree.isCountProjection()) {
             return LookupStrategy.COUNT;
@@ -26,12 +26,7 @@ class LookupStrategyFactory {
         if (tree.isDelete()) {
             return LookupStrategy.UPDATE_QUERY;
         }
-        Class<?> returnedClass = method.getReturnedObjectType();
-        if (returnedClass.isPrimitive()) {
-            returnedClass = ClassUtils.primitiveToWrapper(returnedClass);
-        }
-        //TODO check newer versions of Spring as they may have implemented it on PartTree level
-        if (returnedClass.equals(Boolean.class)) {
+        if (tree.isExistsProjection()) {
             return LookupStrategy.EXISTS_QUERY;
         }
         throw new IllegalArgumentException("Don't know what lookupStrategy to follow!!");
