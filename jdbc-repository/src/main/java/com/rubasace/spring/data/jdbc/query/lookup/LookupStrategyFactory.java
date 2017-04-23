@@ -9,7 +9,6 @@ class LookupStrategyFactory {
 
     }
 
-    //TODO get rid of this so now we create directly the execution implementation
     static LookupStrategy chooseStrategy(PartTree tree, JdbcQueryMethod method) {
         if (tree.isCountProjection()) {
             return LookupStrategy.COUNT;
