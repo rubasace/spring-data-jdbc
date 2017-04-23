@@ -2,12 +2,10 @@ package com.rubasace.spring.data.jdbc.query.lookup;
 
 
 import com.rubasace.spring.data.jdbc.query.JdbcQueryMethod;
-import com.rubasace.spring.data.jdbc.query.lookup.JdbcByNameRepositoryQuery.Strategy;
 import com.rubasace.spring.data.jdbc.sql.SqlGenerator;
 import com.rubasace.spring.data.repository.TableDescription;
 import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
 import com.rubasace.spring.data.repository.util.SQLJavaNamingUtils;
-import org.apache.commons.lang3.ClassUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,7 +30,7 @@ public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcB
     private final SqlGenerator builder;
     private final TableDescription tableDescription;
     private final JdbcQueryMethod method;
-    private Strategy strategy;
+    private LookupStrategy lookupStrategy;
 
     private PartTree tree;
 
@@ -54,34 +52,10 @@ public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcB
         this.template = template;
         this.rowMapper = rowMapper;
         this.tableDescription = tableDescription;
-        this.strategy = chooseStrategy(tree, method);
+        this.lookupStrategy = LookupStrategyFactory.chooseStrategy(tree, method);
     }
 
-    private Strategy chooseStrategy(PartTree tree, JdbcQueryMethod method) {
-        if (tree.isCountProjection()) {
-            return Strategy.COUNT;
-        }
-        if (method.isCollectionQuery()) {
-            return Strategy.COLLECTION_QUERY;
-        }
-        if (method.isQueryForEntity()) {
-            return Strategy.SINGLE_QUERY;
-        }
-        if (method.isPageQuery()) {
-            return Strategy.PAGE_QUERY;
-        }
-        if (tree.isDelete()) {
-            return Strategy.UPDATE_QUERY;
-        }
-        Class<?> returnedClass = method.getReturnedObjectType();
-        if (returnedClass.isPrimitive()) {
-            returnedClass = ClassUtils.primitiveToWrapper(returnedClass);
-        }
-        if (returnedClass.equals(Boolean.class)) {
-            return Strategy.EXISTS_QUERY;
-        }
-        throw new IllegalArgumentException("Don't know what strategy to follow!!");
-    }
+
 
     public boolean isUpdate() {
         return tree.isDelete();
@@ -257,7 +231,7 @@ public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcB
     @Override
     protected JdbcByNameRepositoryQuery complete(String base, Sort sort) {
         String query;
-        if (Strategy.COUNT.equals(strategy) || Strategy.EXISTS_QUERY.equals(strategy)) {
+        if (LookupStrategy.COUNT.equals(lookupStrategy) || LookupStrategy.EXISTS_QUERY.equals(lookupStrategy)) {
             query = builder.count(tableDescription.getTableName());
         } else if (tree.isDelete()) {
             query = builder.delete(tableDescription.getTableName());
@@ -271,7 +245,7 @@ public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcB
         } else {
             query = builder.sort(query, sort);
         }
-        return new JdbcByNameRepositoryQuery(method, template, query, rowMapper, strategy, parameterProperties);
+        return new JdbcByNameRepositoryQuery(method, template, query, rowMapper, lookupStrategy, parameterProperties);
     }
 
 

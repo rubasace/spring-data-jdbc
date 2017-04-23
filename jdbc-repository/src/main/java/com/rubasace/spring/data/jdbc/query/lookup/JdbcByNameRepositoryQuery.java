@@ -1,5 +1,7 @@
 package com.rubasace.spring.data.jdbc.query.lookup;
 
+import com.rubasace.spring.data.jdbc.query.lookup.execution.JdbcRepositoryExecutionStrategy;
+import com.rubasace.spring.data.jdbc.query.lookup.execution.JdbcRepositoryExecutionStrategyFactory;
 import com.rubasace.spring.data.jdbc.query.processor.QueryParameterProcessor;
 import com.rubasace.spring.data.jdbc.query.processor.QueryParameterProcessorFactory;
 import org.slf4j.Logger;
@@ -10,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterUtils;
 import org.springframework.jdbc.core.namedparam.ParsedSql;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,7 @@ public class JdbcByNameRepositoryQuery implements RepositoryQuery {
     private static final String GET_TEMPLATE_PARAMETERS_METHOD_NAME = "getParameterNames";
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryQuery.class);
     private final Method getParametersMethod;
-    private final BaseJdbcRepositoryStrategy strategy;
+    private final JdbcRepositoryExecutionStrategy strategy;
     private List<QueryParameterProcessor> parameterMethodsList;
     private List<String> parametersNames;
     private QueryMethod method;
@@ -47,38 +48,17 @@ public class JdbcByNameRepositoryQuery implements RepositoryQuery {
     }
 
     public JdbcByNameRepositoryQuery(QueryMethod method, NamedParameterJdbcOperations template, String query, RowMapper rowMapper,
-                                     Strategy strategy, List<ParameterProperties> parameterProperties) {
+                                     LookupStrategy lookupStrategy, List<ParameterProperties> parameterProperties) {
         this.method = method;
         this.query = query;
         this.template = template;
         this.rowMapper = rowMapper;
 
-        LOGGER.debug("applying strategy {}", strategy.name());
+        LOGGER.debug("applying lookupStrategy {}", lookupStrategy.name());
 
+        this.strategy = JdbcRepositoryExecutionStrategyFactory.chooseStrategy(lookupStrategy);
         processMethodParameters(parameterProperties);
 
-        switch (strategy) {
-            case COLLECTION_QUERY:
-                this.strategy = new CollectionQueryJdbcRepositoryStrategy();
-                break;
-            case COUNT:
-                this.strategy = new CountJdbcRepositoryStrategy();
-                break;
-            case SINGLE_QUERY:
-                this.strategy = new SingleQueryJdbcRepositoryStrategy();
-                break;
-            case UPDATE_QUERY:
-                this.strategy = new UpdatetJdbcRepositoryStrategy();
-                break;
-            case PAGE_QUERY:
-                this.strategy = new UpdatetJdbcRepositoryStrategy();
-                break;
-            case EXISTS_QUERY:
-                this.strategy = new ExistsJdbcRepositoryStrategy();
-                break;
-            default:
-                throw new IllegalArgumentException("Unkwnown strategy provided");
-        }
 
     }
 
@@ -101,14 +81,14 @@ public class JdbcByNameRepositoryQuery implements RepositoryQuery {
 
     @Override
     public Object execute(Object[] parameters) {
-        LOGGER.info("executing query {} ", query);
+        LOGGER.debug("executing query {} ", query);
         LOGGER.trace("parameters -> {}", parameters);
 
         Map<String, Object> namedParameters = new HashMap<>();
         for (int i = 0; i < parameters.length; i++) {
             namedParameters.put(parametersNames.get(i), parameterMethodsList.get(i).processParameter(parameters[i]));
         }
-        return strategy.execute(namedParameters);
+        return strategy.execute(template, query, namedParameters, rowMapper);
     }
 
     @Override
@@ -116,78 +96,5 @@ public class JdbcByNameRepositoryQuery implements RepositoryQuery {
         return method;
     }
 
-    protected enum Strategy {
-        COUNT,
-        SINGLE_QUERY,
-        COLLECTION_QUERY,
-        UPDATE_QUERY,
-        PAGE_QUERY,
-        EXISTS_QUERY
-    }
-
-    private interface BaseJdbcRepositoryStrategy {
-        Object execute(Map<String, Object> parameters);
-    }
-
-    private class CountJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            return JdbcByNameRepositoryQuery.this.template.queryForObject(query, parameters, Long.class);
-        }
-
-    }
-
-    // TODO 2 queries, one for results, one for total vs extra field with total
-    // on same query
-    private class PageJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            // return BaseJdbcRepositoryQuery.this.template.query(query,
-            // BaseJdbcRepositoryQuery.this.rowMapper);
-            // return new PageImpl<>(jdbcOps., page, count())
-            return null;
-        }
-
-    }
-
-    private class SingleQueryJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            List result = JdbcByNameRepositoryQuery.this.template.query(query, parameters, rowMapper);
-            return CollectionUtils.isEmpty(result) ? null : result.get(0);
-        }
-
-    }
-
-    private class ExistsJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            return JdbcByNameRepositoryQuery.this.template.queryForObject(query, parameters, Long.class) > 0;
-        }
-
-    }
-
-    private class CollectionQueryJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            return JdbcByNameRepositoryQuery.this.template.query(query, parameters, JdbcByNameRepositoryQuery.this.rowMapper);
-        }
-
-    }
-
-    private class UpdatetJdbcRepositoryStrategy implements BaseJdbcRepositoryStrategy {
-
-        @Override
-        public Object execute(Map<String, Object> parameters) {
-            JdbcByNameRepositoryQuery.this.template.update(query, parameters);
-            return null;
-        }
-
-    }
 
 }
