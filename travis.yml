@@ -1,0 +1,48 @@
+sudo: false
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk8
+#env:
+#  global:
+#    - PROFILE=default
+#    - ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
+#    - ORACLE_SID=XE
+#    - secure: DGNJTv3zKzaP6XdPIioZKyhdBCH/R4Ngbtkx61nONq5mLFUX4X9X1kFBRon7B7k+vuTbTsThE+Rt7L78hogwChkU7cG39/OJpNmLCAN7rQmb2QFln9fwygGKqYVza8vabYgIpM9z6pHr+miFKAxYaO8JqWghgMJKj8lhogRxZs4=  # ORACLE_LOGIN_ssousername
+#    - secure: w9IL1XjC3SWZ/6YD0qPsNxCYWvP9+zLMViUj+9JPyAaQe80n0uwWXfn1jBfoiBm1+69Qq4UjVbcxYLueIWeuHhRI3ZdvyZlw+DahgRzLviHEjJXTN7E+//UeoKMCSVFAxfn9jK3CuSDQ6T7IymhRXHC5uLvk/MHJLrv2QbHceyw=  # ORACLE_LOGIN_password
+#    - secure: nyniezePeWzxbIS2+DGqhVRbRlkTcvFAkh7KDG46Y9gwDloc9U6qvGcsLRfhHPVCv/r0g3OROUUBhIs4H+Malm1MTgXGBHwbIy62BnFWTQdwd6DQr7sclkxFjFHxPQ0aewObI4Fw70nwJKNnJosRZApmaZgYRwvTwWt5nc6jGXc=  # BINTRAY_API_KEY
+#  matrix:
+#    - DB=embedded
+#    - DB=postgresql
+#    - DB=mysql
+#matrix:
+#  include:
+#    - env: DB=mariadb
+#      jdk: openjdk7
+#      addons:
+#        mariadb: '10.1'
+#    - env: DB=mariadb
+#      jdk: oraclejdk8
+#      addons:
+#        mariadb: '10.1'
+#    - env: DB=oracle PROFILE=oracle
+#      jdk: openjdk7
+#      sudo: required
+#    - env: DB=oracle PROFILE=oracle
+#      jdk: oraclejdk8
+#      sudo: required
+#
+#cache:
+#  directories:
+#    - $HOME/.m2
+#before_cache:
+#  - rm -Rf $HOME/.m2/repository/cz/jirutka/spring/spring-data-jdbc-repository
+#
+#before_script:
+#  - script/travis-setup
+#install:
+#  - mvn clean install -DskipTests=true
+#script:
+#  - mvn verify -B -P $PROFILE
+#after_success:
+#  - script/travis-deploy
