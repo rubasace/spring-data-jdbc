@@ -30,11 +30,7 @@ public abstract class JdbcEntityInformation<T, ID extends Serializable> extends 
     protected final Class<ID> idType;
     private final GetIdStrategy getIdStrategy;
     private final String className;
-    protected List<Field> idFields;
-
-    {
-        idFields = new ArrayList<Field>();
-    }
+    protected List<Field> idFields = new ArrayList<Field>();
 
     @SuppressWarnings("unchecked")
     public JdbcEntityInformation(Class<T> domainClass) {
@@ -84,11 +80,6 @@ public abstract class JdbcEntityInformation<T, ID extends Serializable> extends 
             return EntityType.AUTO_INCREMENTAL;
         }
         return EntityType.MANUALLY_ASSIGNED;
-    }
-
-    @Override
-    public boolean isNew(T entity) {
-        return ((JdbcEntity) entity)._isNew();
     }
 
     public List<Field> getIdFields() {
