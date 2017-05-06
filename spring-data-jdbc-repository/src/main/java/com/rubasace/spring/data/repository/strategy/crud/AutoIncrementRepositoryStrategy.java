@@ -3,7 +3,6 @@ package com.rubasace.spring.data.repository.strategy.crud;
 import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
 import com.rubasace.spring.data.repository.util.GeneratedValueUtil;
 import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.data.repository.core.EntityInformation;
 
 import java.lang.reflect.Field;
@@ -35,7 +34,7 @@ public class AutoIncrementRepositoryStrategy extends AbstractRepositoryStrategy 
     @Override
     public <T> T postInsert(T entity, Number generatedId) {
         try {
-            ID id = (ID) getNumberValueMethod.invoke(generatedId);
+            Number id = (Number) getNumberValueMethod.invoke(generatedId);
             idSetter.invoke(entity, id);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(e);
