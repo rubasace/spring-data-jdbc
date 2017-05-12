@@ -1,72 +1,65 @@
+/*
+ *
+ *  * Copyright (C) 2017 Ruben Pahino Verdugo <ruben.pahino.verdugo@gmail.com>
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License");
+ *  * you may not use this file except in compliance with the License.
+ *  * You may obtain a copy of the License at
+ *  *
+ *  * http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
+ */
+
 package com.rubasace.spring.data.repository.mapping;
 
 import com.rubasace.spring.data.repository.model.JdbcPersistable;
+import com.rubasace.spring.data.repository.model.util.ObjectInstantiator;
+import com.rubasace.spring.data.repository.model.util.ObjectInstantiatorDefault;
 import com.rubasace.spring.data.repository.util.MethodsUtils;
-import com.rubasace.spring.data.repository.util.SQLJavaNamingUtils;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 //TODO implement Strategy and clean up classes
 //TODO: revisar getReadMethod que falla con Boolean
 public class ReflectionRowMapper<T> implements RowMapper<T> {
 
-    private static final String PERSISTABLE_SET_NEW_METHOD = "setNew";
+    private final Map<String, Method> methodsMap;
+    private final ObjectInstantiator objectInstantiator = new ObjectInstantiatorDefault();
     private Class<? extends T> entityClass;
-    private Map<String, Method> methodsMap;
 
-    // TODO revisar exception
+    //TODO revisar exception
     public ReflectionRowMapper(Class<? extends T> objectClass) {
         super();
         this.entityClass = objectClass;
-        createMethodsMap();
+        methodsMap = SettersMapper.createSettersMap(objectClass);
     }
 
-    // TODO utilizar anotaciones y fields en lugar de esto
-    private void createMethodsMap() {
-        methodsMap = new LinkedHashMap<String, Method>();
-        Method method;
-        try {
-            for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(entityClass)
-                                                                     .getPropertyDescriptors()) {
-                if ((method = propertyDescriptor.getWriteMethod()) != null
-                        && propertyDescriptor.getReadMethod() != null) {
-                    if (JdbcPersistable.class.isAssignableFrom(entityClass) && method.getName().equals(PERSISTABLE_SET_NEW_METHOD)) {
-                        continue;
-                    }
-                    methodsMap.put(
-                            SQLJavaNamingUtils.geColumnNameFromAttributeName(propertyDescriptor.getDisplayName()),
-                            propertyDescriptor.getWriteMethod());
-                }
-            }
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // TODO revisar excepciones, add logs, etc
+    //TODO revisar excepciones, add logs, etc
     @Override
     @SuppressWarnings("rawtypes")
     public T mapRow(ResultSet rs, int rowNum) throws SQLException {
-        T entity;
         try {
-            entity = entityClass.newInstance();
-            Object o;
+            //TODO change for proper library (ask nestor)
+            T entity = objectInstantiator.newInstance(entityClass);
+            Object row;
             for (String columnName : methodsMap.keySet()) {
                 // TODO ejecutar el get correspondiente a la clase para evitar
                 // problemas
                 Class<?> type = methodsMap.get(columnName).getParameterTypes()[0];
-                o = MethodsUtils.getResultSetGetMethod(type).invoke(rs, columnName);
+                row = MethodsUtils.getResultSetGetMethod(type).invoke(rs, columnName);
                 if (!rs.wasNull()) {
-                    methodsMap.get(columnName).invoke(entity, o);
+                    methodsMap.get(columnName).invoke(entity, row);
                 }
             }
             if (entity instanceof JdbcPersistable) {
@@ -77,7 +70,5 @@ public class ReflectionRowMapper<T> implements RowMapper<T> {
                 | InstantiationException e) {
             throw new SQLException(e);
         }
-
     }
-
 }

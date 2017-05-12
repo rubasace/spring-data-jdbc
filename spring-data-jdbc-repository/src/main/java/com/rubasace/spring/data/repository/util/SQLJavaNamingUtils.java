@@ -3,7 +3,6 @@ package com.rubasace.spring.data.repository.util;
 import com.google.common.base.CaseFormat;
 
 //TODO permitir inyectar como bean y cambiar los convention mediante properties
-//TODO permitir cambiar tabla y columnas por anotaciones
 public class SQLJavaNamingUtils {
 
     private static final CaseFormat DATABASE_TABLE_NAMING_CONVENTION = CaseFormat.LOWER_UNDERSCORE;

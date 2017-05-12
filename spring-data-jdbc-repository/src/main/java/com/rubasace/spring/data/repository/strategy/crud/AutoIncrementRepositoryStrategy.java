@@ -21,14 +21,10 @@ public class AutoIncrementRepositoryStrategy extends AbstractRepositoryStrategy 
 
     // TODO implement custom EntityInformation for avoiding this hack
     private Method getIdSetter() {
-        try {
-            JdbcEntityInformation info = ((JdbcEntityInformation) getEntityInformation());
-            Field idField = (Field) info.getIdFields().get(0);
-            Class<?> entityClass = info.getJavaType();
-            return ReflectionMethodsUtils.findSetterMethod(idField, entityClass);
-        } catch (SecurityException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcEntityInformation info = ((JdbcEntityInformation) getEntityInformation());
+        Field idField = (Field) info.getIdFields().get(0);
+        Class<?> entityClass = info.getJavaType();
+        return ReflectionMethodsUtils.findSetterMethod(idField, entityClass);
     }
 
     @Override
