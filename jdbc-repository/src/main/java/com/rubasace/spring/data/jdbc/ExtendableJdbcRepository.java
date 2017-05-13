@@ -1,6 +1,7 @@
 package com.rubasace.spring.data.jdbc;
 
 import com.rubasace.spring.data.repository.ReflectionJdbcRepository;
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +11,11 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
+//TODO check if needed
 public class ExtendableJdbcRepository<T, ID extends Serializable> extends ReflectionJdbcRepository<T, ID> {
 
-    public ExtendableJdbcRepository(Class<T> entityClass) {
-        super(entityClass);
+    public ExtendableJdbcRepository(final Class<T> entityClass, final SqlGeneratorFactory sqlGeneratorFactory) {
+        super(entityClass, sqlGeneratorFactory);
     }
 
     protected boolean exists(String whereClause, Object... args) {

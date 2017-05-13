@@ -51,7 +51,7 @@ public class TableDescription {
     }
 
     /**
-     * @param pkColumns A list of columns names that are part of the table's
+     * @param pkColumns A list of columns names that are part of the tableDescription's
      *                  primary key.
      * @throws IllegalArgumentException if {@code pkColumn} is empty.
      */
@@ -92,7 +92,7 @@ public class TableDescription {
     }
 
     /**
-     * @param tableName The table name.
+     * @param tableName The tableDescription name.
      * @throws IllegalArgumentException if {@code tableName} is blank.
      */
     public void setTableName(String tableName) {
@@ -102,7 +102,7 @@ public class TableDescription {
 
     /**
      * @param fromClause The expression to be used in SELECT ... FROM clause,
-     *                   i.e. table and join clauses. Defaults to {@link #getTableName()}.
+     *                   i.e. tableDescription and join clauses. Defaults to {@link #getTableName()}.
      */
     public void setFromClause(String fromClause) {
         this.fromClause = fromClause;

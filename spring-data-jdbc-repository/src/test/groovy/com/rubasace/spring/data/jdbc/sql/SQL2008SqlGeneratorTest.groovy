@@ -28,10 +28,10 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //
 //    @Override
-//    expectedPaginatedQuery(TableDescription table, Pageable page) {
+//    expectedPaginatedQuery(TableDescription tableDescription, Pageable page) {
 //
 //        // If sort is not specified, then it should be sorted by primary key columns.
-//        def sort = page.sort ?: new Sort(ASC, table.pkColumns)
+//        def sort = page.sort ?: new Sort(ASC, tableDescription.pkColumns)
 //
 //        """
 //            SELECT a, b FROM tabx ${orderBy(sort)}

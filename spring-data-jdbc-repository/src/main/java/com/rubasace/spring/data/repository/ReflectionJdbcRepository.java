@@ -4,6 +4,7 @@ import com.rubasace.spring.data.repository.mapping.ReflectionRowMapper;
 import com.rubasace.spring.data.repository.mapping.ReflectionRowUnmapper;
 import com.rubasace.spring.data.repository.mapping.UnsupportedRowUnmapper;
 import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import com.rubasace.spring.data.repository.strategy.crud.AbstractRepositoryStrategy;
 import com.rubasace.spring.data.repository.strategy.crud.RepositoryStrategyFactory;
 import com.rubasace.spring.data.repository.strategy.id.IdToArrayStrategy;
@@ -14,12 +15,12 @@ import java.io.Serializable;
 
 public class ReflectionJdbcRepository<T, ID extends Serializable> extends BaseJdbcRepository<T, ID> {
 
-    AbstractRepositoryStrategy repositoryStrategy;
-    IdToArrayStrategy idToArrayStrategy;
+    protected AbstractRepositoryStrategy repositoryStrategy;
+    protected IdToArrayStrategy idToArrayStrategy;
 
-    public ReflectionJdbcRepository(Class<T> entityClass) {
+    public ReflectionJdbcRepository(Class<T> entityClass, final SqlGeneratorFactory sqlGeneratorFactory) {
         super(EntityUtils.getEntityInformation(entityClass), new ReflectionRowMapper<>(entityClass),
-              new UnsupportedRowUnmapper<T>(), EntityUtils.getTableDescription(entityClass));
+              new UnsupportedRowUnmapper<T>(), EntityUtils.getTableDescription(entityClass), sqlGeneratorFactory);
         repositoryStrategy = RepositoryStrategyFactory.chooseStrategy(entityInfo);
         if (!EntityUtils.getEntityType(entityInfo).equals(EntityType.READ_ONLY)) {
             this.rowUnmapper = new ReflectionRowUnmapper<>(entityClass);

@@ -27,15 +27,15 @@ package com.rubasace.spring.data.jdbc.sql
 //    def sqlGenerator = new Oracle9SqlGenerator()
 //
 //
-//    @Override expectedPaginatedQuery(TableDescription table, Pageable page) {
+//    @Override expectedPaginatedQuery(TableDescription tableDescription, Pageable page) {
 //
 //        // If sort is not specified, then it should be sorted by primary key columns.
-//        def sort = page.sort ?: new Sort(ASC, table.pkColumns)
+//        def sort = page.sort ?: new Sort(ASC, tableDescription.pkColumns)
 //
 //        """
 //            SELECT t2__.* FROM (
 //                SELECT t1__.*, ROWNUM as rn__ FROM (
-//                    SELECT ${table.selectClause} FROM ${table.fromClause} ${orderBy(sort)}
+//                    SELECT ${tableDescription.selectClause} FROM ${tableDescription.fromClause} ${orderBy(sort)}
 //                ) t1__
 //            ) t2__ WHERE t2__.rn__ > ${page.offset} AND ROWNUM <= ${page.pageSize}
 //        """.trim().replaceAll(/\s+/, ' ')

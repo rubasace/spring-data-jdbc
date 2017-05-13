@@ -20,6 +20,7 @@ import com.rubasace.spring.data.jdbc.fixtures.BoardingPassRepository
 import com.rubasace.spring.data.jdbc.fixtures.CommentRepository
 import com.rubasace.spring.data.jdbc.fixtures.CommentWithUserRepository
 import com.rubasace.spring.data.jdbc.fixtures.UserRepository
+import com.rubasace.spring.data.repository.sql.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.ClassPathResource
@@ -38,9 +39,17 @@ abstract class AbstractTestConfig {
     @Autowired
     ResourceLoader resourceLoader
 
+    @Autowired
+    List<SqlGenerator> generators;
+
 
     @Bean
     abstract DataSource dataSource()
+
+    @Bean
+    SqlGeneratorFactory sqlGeneratorFactory() {
+        return new SqlGeneratorFactory(generators);
+    }
 
 
     def getInitSqlScript() {
@@ -66,21 +75,43 @@ abstract class AbstractTestConfig {
 
     @Bean
     CommentRepository commentRepository() {
-        new CommentRepository()
+        new CommentRepository(sqlGeneratorFactory())
     }
 
     @Bean
     UserRepository userRepository() {
-        new UserRepository()
+        new UserRepository(sqlGeneratorFactory())
     }
 
     @Bean
     BoardingPassRepository boardingPassRepository() {
-        new BoardingPassRepository()
+        new BoardingPassRepository(sqlGeneratorFactory())
     }
 
     @Bean
     CommentWithUserRepository commentWithUserRepository() {
-        new CommentWithUserRepository()
+        new CommentWithUserRepository(sqlGeneratorFactory())
     }
+
+    @Bean
+    DefaultSqlGenerator defaultSqlGenerator() {
+        return new DefaultSqlGenerator();
+    }
+
+    @Bean
+    LimitOffsetSqlGenerator limitOffsetSqlGenerator() {
+        return new LimitOffsetSqlGenerator();
+    }
+
+    @Bean
+    Oracle9SqlGenerator oracle9SqlGenerator() {
+        return new Oracle9SqlGenerator();
+    }
+
+    @Bean
+    SQL2008SqlGenerator sql2008SqlGenerator() {
+        return new SQL2008SqlGenerator();
+    }
+
+
 }

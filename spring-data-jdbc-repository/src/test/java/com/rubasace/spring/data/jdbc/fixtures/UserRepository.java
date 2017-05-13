@@ -18,6 +18,7 @@ package com.rubasace.spring.data.jdbc.fixtures;
 
 import com.rubasace.spring.data.repository.BaseJdbcRepository;
 import com.rubasace.spring.data.repository.RowUnmapper;
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -54,9 +55,8 @@ public class UserRepository extends BaseJdbcRepository<User, String> {
         }
     };
 
-
-    public UserRepository() {
-        super(ROW_MAPPER, ROW_UNMAPPER, "USERS", "user_name");
+    public UserRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
+        super(ROW_MAPPER, ROW_UNMAPPER, "USERS", "user_name", sqlGeneratorFactory);
     }
 
 

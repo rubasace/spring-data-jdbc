@@ -18,6 +18,7 @@ package com.rubasace.spring.data.repository.sql;
 import com.rubasace.spring.data.repository.TableDescription;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -28,7 +29,8 @@ import static java.lang.String.format;
  * SQL Generator for DB servers that support the SQL:2008 standard OFFSET
  * feature: Apache Derby, Microsoft SQL Server 2012, and Oracle 12c.
  */
-public class SQL2008SqlGenerator extends DefaultSqlGenerator {
+@Component
+public class SQL2008SqlGenerator extends AbstractSqlGenerator {
 
     @Override
     public boolean isCompatible(DatabaseMetaData metadata) throws SQLException {

@@ -19,6 +19,7 @@ package com.rubasace.spring.data.jdbc.fixtures;
 import com.rubasace.spring.data.repository.BaseJdbcRepository;
 import com.rubasace.spring.data.repository.RowUnmapper;
 import com.rubasace.spring.data.repository.TableDescription;
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -58,14 +59,13 @@ public class CommentWithUserRepository extends BaseJdbcRepository<CommentWithUse
         }
     };
 
-
-    public CommentWithUserRepository() {
+    public CommentWithUserRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
         this(new TableDescription(
-                "COMMENTS", "COMMENTS JOIN USERS ON COMMENTS.user_name = USERS.user_name", "id"));
+                "COMMENTS", "COMMENTS JOIN USERS ON COMMENTS.user_name = USERS.user_name", "id"), sqlGeneratorFactory);
     }
 
-    public CommentWithUserRepository(TableDescription table) {
-        super(ROW_MAPPER, ROW_UNMAPPER, table);
+    public CommentWithUserRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory) {
+        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory);
     }
 
 

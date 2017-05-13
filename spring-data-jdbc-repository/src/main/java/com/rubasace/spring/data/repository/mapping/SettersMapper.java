@@ -18,7 +18,7 @@
 
 package com.rubasace.spring.data.repository.mapping;
 
-import com.rubasace.spring.data.repository.Column;
+import com.rubasace.spring.data.repository.annotation.Column;
 import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
 import com.rubasace.spring.data.repository.util.SQLJavaNamingUtils;
 import org.springframework.data.annotation.Transient;

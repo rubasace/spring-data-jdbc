@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//TODO allow choose only some columns from the table
+//TODO allow choose only some columns from the tableDescription
 public class JdbcByNameRepositoryQueryCreator extends AbstractQueryCreator<JdbcByNameRepositoryQuery, String> {
 
     private final NamedParameterJdbcOperations template;

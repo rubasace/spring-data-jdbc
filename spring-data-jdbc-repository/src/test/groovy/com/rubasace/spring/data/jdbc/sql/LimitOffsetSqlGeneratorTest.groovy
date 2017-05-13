@@ -24,7 +24,7 @@ package com.rubasace.spring.data.jdbc.sql
 //    def sqlGenerator = new LimitOffsetSqlGenerator()
 //
 //
-//    @Override expectedPaginatedQuery(TableDescription table, Pageable page) {
+//    @Override expectedPaginatedQuery(TableDescription tableDescription, Pageable page) {
 //        def orderBy = page.sort ? orderBy(page.sort) + ' ' : ''
 //
 //        "SELECT a, b FROM tabx ${orderBy}LIMIT ${page.pageSize} OFFSET ${page.offset}"

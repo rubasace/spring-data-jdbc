@@ -18,7 +18,7 @@
 
 package com.rubasace.spring.data.repository.model;
 
-import com.rubasace.spring.data.repository.Column;
+import com.rubasace.spring.data.repository.annotation.Column;
 import org.springframework.data.annotation.Transient;
 
 public class AnnotatedTestEntity {

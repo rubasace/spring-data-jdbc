@@ -1,6 +1,7 @@
 package com.rubasace.spring.data.jdbc.config;
 
 import com.rubasace.spring.data.jdbc.support.JdbcRepositoryFactoryBean;
+import com.rubasace.spring.data.repository.SpringDataJdbcConfig;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
@@ -19,7 +20,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(JdbcRepositoriesRegistrar.class)
+@Import({JdbcRepositoriesRegistrar.class, SpringDataJdbcConfig.class})
 public @interface EnableJdbcRepositories {
     /**
      * Alias for the {@link #basePackages()} attribute. Allows for more concise

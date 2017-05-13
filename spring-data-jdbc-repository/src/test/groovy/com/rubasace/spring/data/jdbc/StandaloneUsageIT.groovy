@@ -16,46 +16,40 @@
  */
 package com.rubasace.spring.data.jdbc
 
-import com.rubasace.spring.data.jdbc.fixtures.User
-import com.rubasace.spring.data.jdbc.fixtures.UserRepository
-import org.h2.jdbcx.JdbcDataSource
-import org.springframework.jdbc.datasource.DataSourceTransactionManager
-import org.springframework.transaction.TransactionStatus
-import org.springframework.transaction.support.TransactionTemplate
 import spock.lang.Specification
 
 class StandaloneUsageIT extends Specification {
 
-    final JDBC_URL = "jdbc:h2:mem:DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema_h2.sql'"
-
-    def dataSource = new JdbcDataSource(url: JDBC_URL)
-    def repository = new UserRepository(dataSource: dataSource)
-
-
-    def setup() {
-        repository.afterPropertiesSet()
-    }
-
-    def cleanup() {
-        repository.deleteAll()
-    }
-
-
-    def 'start repository without Spring'() {
-        expect:
-        repository.findAll().isEmpty()
-    }
-
-    def 'insert into database'() {
-        given:
-        def tx = new TransactionTemplate(new DataSourceTransactionManager(dataSource))
-        when:
-        def users = tx.execute { TransactionStatus status ->
-            def user = new User('john', new Date(), 0, false)
-            repository.save(user)
-            repository.findAll()
-        }
-        then:
-        users.size() == 1
-    }
+//    final JDBC_URL = "jdbc:h2:mem:DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema_h2.sql'"
+//
+//    def dataSource = new JdbcDataSource(url: JDBC_URL)
+//    def repository = new UserRepository(dataSource: dataSource, )
+//
+//
+//    def setup() {
+//        repository.afterPropertiesSet()
+//    }
+//
+//    def cleanup() {
+//        repository.deleteAll()
+//    }
+//
+//
+//    def 'start repository without Spring'() {
+//        expect:
+//        repository.findAll().isEmpty()
+//    }
+//
+//    def 'insert into database'() {
+//        given:
+//        def tx = new TransactionTemplate(new DataSourceTransactionManager(dataSource))
+//        when:
+//        def users = tx.execute { TransactionStatus status ->
+//            def user = new User('john', new Date(), 0, false)
+//            repository.save(user)
+//            repository.findAll()
+//        }
+//        then:
+//        users.size() == 1
+//    }
 }

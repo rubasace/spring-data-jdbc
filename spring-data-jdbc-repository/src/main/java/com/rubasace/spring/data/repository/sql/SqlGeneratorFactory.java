@@ -17,54 +17,27 @@ package com.rubasace.spring.data.repository.sql;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+@Component
 public class SqlGeneratorFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlGeneratorFactory.class);
-
-    private static final SqlGeneratorFactory INSTANCE = new SqlGeneratorFactory(true);
-
-    private final Deque<SqlGenerator> generators = new ArrayDeque<>();
-
     private final Map<DataSource, SqlGenerator> cache = new WeakHashMap<>(2, 1.0f);
+    private final List<SqlGenerator> generators;
 
-
-    /**
-     * @param registerDefault Whether to register default (built-in) generators.
-     * @see #getInstance()
-     */
-    public SqlGeneratorFactory(boolean registerDefault) {
-        if (registerDefault) {
-            registerGenerator(new DefaultSqlGenerator());
-            registerGenerator(new LimitOffsetSqlGenerator());
-            registerGenerator(new SQL2008SqlGenerator());
-            registerGenerator(new Oracle9SqlGenerator());
-        }
-    }
-
-    /**
-     * Adds the {@code sqlGenerator} to the top of the generators registry.
-     *
-     * @param sqlGenerator The SQL Generator instance to register.
-     */
-    public void registerGenerator(SqlGenerator sqlGenerator) {
-        generators.push(sqlGenerator);
-    }
-
-    /**
-     * @return The singleton instance of SqlGeneratorFactory.
-     */
-    public static SqlGeneratorFactory getInstance() {
-        return INSTANCE;
+    @Autowired
+    public SqlGeneratorFactory(final List<SqlGenerator> generators) {
+        this.generators = generators;
     }
 
     /**
@@ -108,13 +81,5 @@ public class SqlGeneratorFactory {
         // This should not happen, because registry should always contain one
         // "default" generator that returns true for every DatabaseMetaData.
         throw new IllegalStateException("No compatible SQL Generator found.");
-    }
-
-    /**
-     * Removes all generators from the factory's registry.
-     */
-    public void clear() {
-        generators.clear();
-        cache.clear();
     }
 }

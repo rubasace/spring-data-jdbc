@@ -17,6 +17,7 @@
 package com.rubasace.spring.data.repository.sql;
 
 import com.rubasace.spring.data.repository.TableDescription;
+import org.springframework.core.Ordered;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -24,7 +25,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Map;
 
-public interface SqlGenerator {
+public interface SqlGenerator extends Ordered {
 
     /**
      * This method is used by {@link SqlGeneratorFactory} to select a right

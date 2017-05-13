@@ -18,6 +18,7 @@ package com.rubasace.spring.data.repository.sql;
 import com.rubasace.spring.data.repository.TableDescription;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -31,7 +32,8 @@ import static java.lang.String.format;
  * @see <a href="https://explainextended.com/2009/05/06/oracle-row_number-vs-rownum/">
  * Oracle: ROW_NUMBER vs ROWNUM</a>
  */
-public class Oracle9SqlGenerator extends DefaultSqlGenerator {
+@Component
+public class Oracle9SqlGenerator extends AbstractSqlGenerator {
 
     @Override
     public boolean isCompatible(DatabaseMetaData metadata) throws SQLException {

@@ -19,6 +19,7 @@ import com.rubasace.spring.data.jdbc.fixtures.Comment
 import com.rubasace.spring.data.jdbc.fixtures.CommentRepository
 import com.rubasace.spring.data.jdbc.fixtures.User
 import com.rubasace.spring.data.jdbc.fixtures.UserRepository
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -27,7 +28,8 @@ class BaseJdbcRepositoryTest extends Specification {
 
     def 'constructor: creates correct default EntityInformation for #desc'() {
         setup:
-        def entityInfo = fixtureRepo.newInstance().entityInfo
+        def factory = SqlGeneratorFactory.newInstance()
+        def entityInfo = fixtureRepo.newInstance(factory).entityInfo
         expect:
         entityInfo.javaType == entityType
         entityInfo.idType == idType

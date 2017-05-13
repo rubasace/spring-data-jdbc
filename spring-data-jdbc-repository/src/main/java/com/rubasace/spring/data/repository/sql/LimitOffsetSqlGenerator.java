@@ -17,6 +17,7 @@ package com.rubasace.spring.data.repository.sql;
 
 import com.rubasace.spring.data.repository.TableDescription;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -29,7 +30,8 @@ import static java.util.Arrays.asList;
  * SQL Generator for DB servers that support LIMIT ... OFFSET clause:
  * PostgreSQL, H2, HSQLDB, SQLite, MariaDB, and MySQL.
  */
-public class LimitOffsetSqlGenerator extends DefaultSqlGenerator {
+@Component
+public class LimitOffsetSqlGenerator extends AbstractSqlGenerator {
 
     private static final List<String> SUPPORTED_PRODUCTS =
             asList("PostgreSQL", "H2", "HSQL Database Engine", "MySQL");

@@ -85,9 +85,9 @@ public class EntityUtils {
     }
 
     public static <T, ID extends Serializable> EntityType getEntityType(EntityInformation<T, ID> information) {
-        if (information instanceof JdbcEntityInformation) {
-            return ((JdbcEntityInformation<T, ID>) information).getEntityType();
+        if (!(information instanceof JdbcEntityInformation)) {
+            throw new RuntimeException("Don't know how to retrieve entity type");
         }
-        throw new RuntimeException("Don't know how to retrieve entity type");
+        return ((JdbcEntityInformation<T, ID>) information).getEntityType();
     }
 }

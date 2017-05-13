@@ -42,7 +42,7 @@ public interface SqlGenerator {
 
     String count(String table);
 
-    //    String count(String table, boolean distinct);
+    //    String count(String tableDescription, boolean distinct);
 
     String delete(String table);
 

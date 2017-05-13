@@ -34,7 +34,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    final ANY = new Object()
 //
-//    def table = new TableDescription (
+//    def tableDescription = new TableDescription (
 //        tableName: 'tab',
 //        selectClause: 'a, b',
 //        fromClause: 'tabx',
@@ -46,21 +46,21 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'count()'() {
 //        expect:
-//            sqlGenerator.count(table) == 'SELECT count(*) FROM tabx'
+//            sqlGenerator.count(tableDescription) == 'SELECT count(*) FROM tabx'
 //    }
 //
 //
 //    def 'deleteAll()'() {
 //        expect:
-//            sqlGenerator.deleteAll(table) == 'DELETE FROM tab'
+//            sqlGenerator.deleteAll(tableDescription) == 'DELETE FROM tab'
 //    }
 //
 //
 //    def 'deleteById(): with #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(pkSize)
+//            tableDescription.pkColumns = pkColumns(pkSize)
 //        expect:
-//            sqlGenerator.deleteById(table) == "DELETE FROM tab WHERE ${pkPredicate(pkSize)}"
+//            sqlGenerator.deleteById(tableDescription) == "DELETE FROM tab WHERE ${pkPredicate(pkSize)}"
 //        where:
 //            pkSize || desc
 //            1      || 'simple PK'
@@ -70,7 +70,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'deleteByIds(): with idsCount = #idsCount'() {
 //        when:
-//            sqlGenerator.deleteByIds(table, idsCount)
+//            sqlGenerator.deleteByIds(tableDescription, idsCount)
 //        then:
 //            thrown IllegalArgumentException
 //        where:
@@ -79,7 +79,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'deleteByIds(): when simple PK and given #desc'() {
 //        expect:
-//            sqlGenerator.deleteByIds(table, idsCount) == "DELETE FROM tab WHERE ${whereClause}"
+//            sqlGenerator.deleteByIds(tableDescription, idsCount) == "DELETE FROM tab WHERE ${whereClause}"
 //        where:
 //            idsCount || whereClause        | desc
 //            1        || 'tid = ?'          | 'one id'
@@ -88,9 +88,9 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'deleteByIds(): when composite PK and given #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(2)
+//            tableDescription.pkColumns = pkColumns(2)
 //        expect:
-//            sqlGenerator.deleteByIds(table, idsCount) == "DELETE FROM tab WHERE ${whereClause}"
+//            sqlGenerator.deleteByIds(tableDescription, idsCount) == "DELETE FROM tab WHERE ${whereClause}"
 //        where:
 //            idsCount || whereClause                                  | desc
 //            1        || pkPredicate(2)                               | 'one id'
@@ -100,9 +100,9 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'existsById(): with #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(pkSize)
+//            tableDescription.pkColumns = pkColumns(pkSize)
 //        expect:
-//            sqlGenerator.existsById(table) == "SELECT 1 FROM tab WHERE ${pkPredicate(pkSize)}"
+//            sqlGenerator.existsById(tableDescription) == "SELECT 1 FROM tab WHERE ${pkPredicate(pkSize)}"
 //        where:
 //            pkSize || desc
 //            1      || 'simple PK'
@@ -112,7 +112,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'insert()'() {
 //        when:
-//            def actual = sqlGenerator.insert(table, [x: ANY, y: ANY, z: ANY])
+//            def actual = sqlGenerator.insert(tableDescription, [x: ANY, y: ANY, z: ANY])
 //        then:
 //            actual == 'INSERT INTO tab (x, y, z) VALUES (?, ?, ?)'
 //    }
@@ -120,15 +120,15 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'selectAll()'() {
 //        expect:
-//            sqlGenerator.selectAll(table) == 'SELECT a, b FROM tabx'
+//            sqlGenerator.selectAll(tableDescription) == 'SELECT a, b FROM tabx'
 //    }
 //
 //    def "selectAll(Pageable): #desc"() {
 //        setup:
-//            table.pkColumns = pkColumns(pkSize)
-//            def expected = expectedPaginatedQuery(table, pageable)
+//            tableDescription.pkColumns = pkColumns(pkSize)
+//            def expected = expectedPaginatedQuery(tableDescription, pageable)
 //        expect:
-//            sqlGenerator.selectAll(table, pageable) == expected
+//            sqlGenerator.selectAll(tableDescription, pageable) == expected
 //        where:
 //            pkSize | pageable                      || desc
 //            1      | page(0, 10)                   || 'when simple key and requested first page'
@@ -140,7 +140,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'selectAll(Sort): #expected'() {
 //        when:
-//            def actual = sqlGenerator.selectAll(table, new Sort(orders))
+//            def actual = sqlGenerator.selectAll(tableDescription, new Sort(orders))
 //        then:
 //            actual == "SELECT a, b FROM tabx ${expected}"
 //        where:
@@ -153,9 +153,9 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'selectById(): with #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(pkSize)
+//            tableDescription.pkColumns = pkColumns(pkSize)
 //        expect:
-//            sqlGenerator.selectById(table) == "SELECT a, b FROM tabx WHERE ${pkPredicate(pkSize)}"
+//            sqlGenerator.selectById(tableDescription) == "SELECT a, b FROM tabx WHERE ${pkPredicate(pkSize)}"
 //        where:
 //            pkSize || desc
 //            1      || 'simple PK'
@@ -165,7 +165,7 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'selectByIds(): when simple PK and given #desc'() {
 //        expect:
-//            sqlGenerator.selectByIds(table, idsCount) == "SELECT a, b FROM tabx${expected}"
+//            sqlGenerator.selectByIds(tableDescription, idsCount) == "SELECT a, b FROM tabx${expected}"
 //        where:
 //            idsCount || expected                  | desc
 //            0        || ''                        | 'no id'
@@ -176,10 +176,10 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'selectByIds(): when composite PK and given #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(3)
+//            tableDescription.pkColumns = pkColumns(3)
 //            expected = expected.replaceAll('%1', pkPredicate(3))
 //        when:
-//            def actual = sqlGenerator.selectByIds(table, idsCount)
+//            def actual = sqlGenerator.selectByIds(tableDescription, idsCount)
 //        then:
 //            actual == "SELECT a, b FROM tabx${expected}"
 //        where:
@@ -193,9 +193,9 @@ package com.rubasace.spring.data.jdbc.sql
 //
 //    def 'update(): with #desc'() {
 //        setup:
-//            table.pkColumns = pkColumns(idsCount)
+//            tableDescription.pkColumns = pkColumns(idsCount)
 //        when:
-//            def actual = sqlGenerator.update(table, [x: ANY, y: ANY, z: ANY])
+//            def actual = sqlGenerator.update(tableDescription, [x: ANY, y: ANY, z: ANY])
 //        then:
 //            actual == "UPDATE tab SET x = ?, y = ?, z = ? WHERE ${pkPredicate(idsCount)}"
 //        where:
@@ -205,10 +205,10 @@ package com.rubasace.spring.data.jdbc.sql
 //    }
 //
 //
-//    def expectedPaginatedQuery(TableDescription table, Pageable page) {
+//    def expectedPaginatedQuery(TableDescription tableDescription, Pageable page) {
 //
 //        // If sort is not specified, then it should be sorted by primary key columns.
-//        def sort = page.sort ?: new Sort(ASC, table.pkColumns)
+//        def sort = page.sort ?: new Sort(ASC, tableDescription.pkColumns)
 //
 //        def firstIndex = page.offset + 1
 //        def lastIndex = page.offset + page.pageSize
@@ -216,7 +216,7 @@ package com.rubasace.spring.data.jdbc.sql
 //        """
 //            SELECT t2__.* FROM (
 //                SELECT row_number() OVER (${orderBy(sort)}) AS rn__, t1__.* FROM (
-//                    SELECT ${table.selectClause} FROM ${table.fromClause}
+//                    SELECT ${tableDescription.selectClause} FROM ${tableDescription.fromClause}
 //                ) t1__
 //            ) t2__ WHERE t2__.rn__ BETWEEN ${firstIndex} AND ${lastIndex}
 //        """.trim().replaceAll(/\s+/, ' ')

@@ -30,7 +30,7 @@ public class NoRecordUpdatedException extends IncorrectUpdateSemanticsDataAccess
 
 
     public NoRecordUpdatedException(String tableName, Object... id) {
-        super(format("No record with id = {%s} exists in table %s",
+        super(format("No record with id = {%s} exists in tableDescription %s",
                      arrayToCommaDelimitedString(id), tableName));
         this.tableName = tableName;
         this.id = id.clone();

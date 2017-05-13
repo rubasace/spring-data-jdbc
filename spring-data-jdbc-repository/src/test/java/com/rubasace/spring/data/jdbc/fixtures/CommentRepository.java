@@ -19,6 +19,7 @@ package com.rubasace.spring.data.jdbc.fixtures;
 import com.rubasace.spring.data.repository.BaseJdbcRepository;
 import com.rubasace.spring.data.repository.RowUnmapper;
 import com.rubasace.spring.data.repository.TableDescription;
+import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -56,13 +57,12 @@ public class CommentRepository extends BaseJdbcRepository<Comment, Integer> {
         }
     };
 
-
-    public CommentRepository() {
-        super(ROW_MAPPER, ROW_UNMAPPER, "COMMENTS");
+    public CommentRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
+        super(ROW_MAPPER, ROW_UNMAPPER, "COMMENTS", sqlGeneratorFactory);
     }
 
-    public CommentRepository(TableDescription table) {
-        super(ROW_MAPPER, ROW_UNMAPPER, table);
+    public CommentRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory) {
+        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory);
     }
 
 

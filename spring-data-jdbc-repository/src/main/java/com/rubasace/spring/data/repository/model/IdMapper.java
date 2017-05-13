@@ -4,6 +4,8 @@ import com.rubasace.spring.data.repository.model.util.ObjectInstantiator;
 import com.rubasace.spring.data.repository.model.util.ObjectInstantiatorDefault;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.InvocationTargetException;
+
 class IdMapper {
 
     private static final ObjectInstantiator instantiator;
@@ -17,9 +19,8 @@ class IdMapper {
             T object = instantiator.newInstance(toClass);
             BeanUtils.copyProperties(fromObject, object);
             return object;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

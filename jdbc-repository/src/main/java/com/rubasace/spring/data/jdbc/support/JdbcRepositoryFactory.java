@@ -1,18 +1,21 @@
 /*
- * Copyright 2008-2015 the original author or authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  * Copyright (C) 2017 Ruben Pahino Verdugo <ruben.pahino.verdugo@gmail.com>
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License");
+ *  * you may not use this file except in compliance with the License.
+ *  * You may obtain a copy of the License at
+ *  *
+ *  * http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
+
 package com.rubasace.spring.data.jdbc.support;
 
 import com.rubasace.spring.data.jdbc.query.JdbcQueryLookupStrategy;
@@ -38,9 +41,9 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
- * JPA specific generic repository factory.
+ * JDBC specific generic repository factory.
  *
- * @author Oliver Gierke
+ * @author Ruben Pahino Verdugo
  */
 public class JdbcRepositoryFactory extends RepositoryFactorySupport {
 
@@ -48,7 +51,7 @@ public class JdbcRepositoryFactory extends RepositoryFactorySupport {
     private static final String FIELD_SQL_GENERATOR = "sqlGenerator";
     private static final String FIELD_JDBC_OPS = "jdbcOps";
     private static final String FIELD_ROWMAPPER = "rowMapper";
-    private static final String FIELD_TABLE_DESCRIPTION = "table";
+    private static final String FIELD_TABLE_DESCRIPTION = "tableDescription";
 
     private static final Class<?> BASE_REPOSITORY_CLASS = ReflectionJdbcRepository.class;
 
@@ -92,6 +95,7 @@ public class JdbcRepositoryFactory extends RepositoryFactorySupport {
         return repository;
     }
 
+    //TODO check if this is correct
     @Override
     protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
         return BASE_REPOSITORY_CLASS;

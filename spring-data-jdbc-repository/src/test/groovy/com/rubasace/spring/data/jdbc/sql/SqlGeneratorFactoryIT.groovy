@@ -30,13 +30,16 @@ abstract class SqlGeneratorFactoryIT extends Specification {
     @Autowired
     DataSource dataSource
 
+    @Autowired
+    SqlGeneratorFactory sqlGeneratorFactory;
+
 
     abstract Class getExpectedGenerator()
 
 
     def 'getGenerator(): returns #generatorClass'() {
         when:
-        def generator = SqlGeneratorFactory.instance.getGenerator(dataSource)
+        def generator = sqlGeneratorFactory.getGenerator(dataSource)
         then:
         generator.class == expectedGenerator
         where:
