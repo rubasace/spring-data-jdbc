@@ -22,6 +22,7 @@ import com.rubasace.spring.data.repository.TableDescription;
 import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -54,9 +55,9 @@ public class BoardingPassRepository extends BaseJdbcRepository<BoardingPass, Obj
         }
     };
 
-    public BoardingPassRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
+    public BoardingPassRepository(final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
         super(ROW_MAPPER, ROW_UNMAPPER,
-              new TableDescription("BOARDING_PASS", null, "flight_no", "seq_no"), sqlGeneratorFactory);
+              new TableDescription("BOARDING_PASS", null, "flight_no", "seq_no"), sqlGeneratorFactory, dataSource);
     }
 
 

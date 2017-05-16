@@ -1,9 +1,9 @@
 package com.rubasace.spring.data.repository;
 
+import com.rubasace.spring.data.repository.information.AbstractJdbcEntityInformation;
 import com.rubasace.spring.data.repository.mapping.ReflectionRowMapper;
 import com.rubasace.spring.data.repository.mapping.ReflectionRowUnmapper;
 import com.rubasace.spring.data.repository.mapping.UnsupportedRowUnmapper;
-import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
 import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import com.rubasace.spring.data.repository.strategy.crud.AbstractRepositoryStrategy;
 import com.rubasace.spring.data.repository.strategy.crud.RepositoryStrategyFactory;
@@ -11,6 +11,7 @@ import com.rubasace.spring.data.repository.strategy.id.IdToArrayStrategy;
 import com.rubasace.spring.data.repository.strategy.id.IdToArrayStrategyFactory;
 import com.rubasace.spring.data.repository.util.EntityUtils;
 
+import javax.sql.DataSource;
 import java.io.Serializable;
 
 public class ReflectionJdbcRepository<T, ID extends Serializable> extends BaseJdbcRepository<T, ID> {
@@ -18,9 +19,9 @@ public class ReflectionJdbcRepository<T, ID extends Serializable> extends BaseJd
     protected AbstractRepositoryStrategy repositoryStrategy;
     protected IdToArrayStrategy idToArrayStrategy;
 
-    public ReflectionJdbcRepository(Class<T> entityClass, final SqlGeneratorFactory sqlGeneratorFactory) {
+    public ReflectionJdbcRepository(Class<T> entityClass, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
         super(EntityUtils.getEntityInformation(entityClass), new ReflectionRowMapper<>(entityClass),
-              new UnsupportedRowUnmapper<T>(), EntityUtils.getTableDescription(entityClass), sqlGeneratorFactory);
+              new UnsupportedRowUnmapper<T>(), EntityUtils.getTableDescription(entityClass), sqlGeneratorFactory, dataSource);
         repositoryStrategy = RepositoryStrategyFactory.chooseStrategy(entityInfo);
         if (!EntityUtils.getEntityType(entityInfo).equals(EntityType.READ_ONLY)) {
             this.rowUnmapper = new ReflectionRowUnmapper<>(entityClass);
@@ -35,8 +36,8 @@ public class ReflectionJdbcRepository<T, ID extends Serializable> extends BaseJd
     }
 
     @Override
-    protected JdbcEntityInformation<T, ID> getEntityInfo() {
-        return (JdbcEntityInformation<T, ID>) super.getEntityInfo();
+    protected AbstractJdbcEntityInformation<T, ID> getEntityInfo() {
+        return (AbstractJdbcEntityInformation<T, ID>) super.getEntityInfo();
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
@@ -57,12 +58,12 @@ public class CommentRepository extends BaseJdbcRepository<Comment, Integer> {
         }
     };
 
-    public CommentRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
-        super(ROW_MAPPER, ROW_UNMAPPER, "COMMENTS", sqlGeneratorFactory);
+    public CommentRepository(final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        super(ROW_MAPPER, ROW_UNMAPPER, "COMMENTS", sqlGeneratorFactory, dataSource);
     }
 
-    public CommentRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory) {
-        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory);
+    public CommentRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory, dataSource);
     }
 
 

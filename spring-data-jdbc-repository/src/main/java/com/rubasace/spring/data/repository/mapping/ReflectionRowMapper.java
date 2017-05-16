@@ -31,7 +31,6 @@ import java.sql.SQLException;
 import java.util.Map;
 
 //TODO implement Strategy and clean up classes
-//TODO: revisar getReadMethod que falla con Boolean
 public class ReflectionRowMapper<T> implements RowMapper<T> {
 
     private final Map<String, Method> methodsMap;
@@ -42,7 +41,7 @@ public class ReflectionRowMapper<T> implements RowMapper<T> {
     public ReflectionRowMapper(Class<? extends T> objectClass) {
         super();
         this.entityClass = objectClass;
-        methodsMap = SettersMapper.createSettersMap(objectClass);
+        methodsMap = SettersMapper.createSettersMapForDatabase(objectClass);
     }
 
     //TODO revisar excepciones, add logs, etc

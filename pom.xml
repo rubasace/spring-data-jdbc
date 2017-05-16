@@ -77,7 +77,7 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.4</version>
             </dependency>
-		</dependencies>
+        </dependencies>
 	</dependencyManagement>
 
 </project>

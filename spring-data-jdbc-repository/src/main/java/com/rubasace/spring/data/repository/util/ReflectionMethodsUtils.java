@@ -34,6 +34,15 @@ public class ReflectionMethodsUtils {
         return SETTER_START + StringUtils.firstToUpper(fieldName);
     }
 
+    //TODO by getting the field we can check the is form if the field is boolean
+    public static Method findGetterMethod(String fieldName, Class<?> clazz) {
+        try {
+            return findGetterMethod(clazz.getDeclaredField(fieldName), clazz);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // TODO do it smoother
     public static Method findGetterMethod(Field field, Class<?> clazz) {
         return findGetterMethod(field.getName(), clazz, ClassUtils.isAssignable(Boolean.class, field.getType()));

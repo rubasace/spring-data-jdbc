@@ -75,22 +75,22 @@ abstract class AbstractTestConfig {
 
     @Bean
     CommentRepository commentRepository() {
-        new CommentRepository(sqlGeneratorFactory())
+        new CommentRepository(sqlGeneratorFactory(),)
     }
 
     @Bean
     UserRepository userRepository() {
-        new UserRepository(sqlGeneratorFactory())
+        new UserRepository(sqlGeneratorFactory(),)
     }
 
     @Bean
     BoardingPassRepository boardingPassRepository() {
-        new BoardingPassRepository(sqlGeneratorFactory())
+        new BoardingPassRepository(sqlGeneratorFactory(),)
     }
 
     @Bean
     CommentWithUserRepository commentWithUserRepository() {
-        new CommentWithUserRepository(sqlGeneratorFactory())
+        new CommentWithUserRepository(sqlGeneratorFactory(),)
     }
 
     @Bean

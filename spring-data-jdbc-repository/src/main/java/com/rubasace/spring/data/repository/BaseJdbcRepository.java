@@ -18,8 +18,6 @@ import com.rubasace.spring.data.repository.internal.ObjectUtils;
 import com.rubasace.spring.data.repository.mapping.UnsupportedRowUnmapper;
 import com.rubasace.spring.data.repository.sql.SqlGenerator;
 import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -56,34 +54,29 @@ import static java.util.Arrays.asList;
  * Implementation of {@link PagingAndSortingRepository} using
  * {@link JdbcTemplate}
  */
-public abstract class BaseJdbcRepository<T, ID extends Serializable> implements JdbcRepository<T, ID>, InitializingBean {
+public abstract class BaseJdbcRepository<T, ID extends Serializable> implements JdbcRepository<T, ID> {
 
-    protected final SqlGeneratorFactory sqlGeneratorFactory;
+    protected final SqlGenerator sqlGenerator;
     protected EntityInformation<T, ID> entityInfo;
     protected TableDescription tableDescription;
     protected RowMapper<T> rowMapper;
     protected RowUnmapper<T> rowUnmapper;
     // Read-only after initialization (invoking afterPropertiesSet()).
-    protected DataSource dataSource;
     protected JdbcOperations jdbcOps;
-    protected SqlGenerator sqlGenerator;
-
-    private boolean initialized;
 
     public BaseJdbcRepository(RowMapper<T> rowMapper, RowUnmapper<T> rowUnmapper,
-                              String tableName, String idColumn, final SqlGeneratorFactory sqlGeneratorFactory) {
-        this(rowMapper, rowUnmapper, new TableDescription(tableName, idColumn), sqlGeneratorFactory);
+                              String tableName, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        this(rowMapper, rowUnmapper, new TableDescription(tableName, "id"), sqlGeneratorFactory, dataSource);
     }
 
     public BaseJdbcRepository(RowMapper<T> rowMapper, RowUnmapper<T> rowUnmapper,
-                              TableDescription tableDescription, final SqlGeneratorFactory sqlGeneratorFactory) {
-        this(null, rowMapper, rowUnmapper, tableDescription, sqlGeneratorFactory);
+                              TableDescription tableDescription, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        this(null, rowMapper, rowUnmapper, tableDescription, sqlGeneratorFactory, dataSource);
     }
 
     public BaseJdbcRepository(EntityInformation<T, ID> entityInformation, RowMapper<T> rowMapper,
                               RowUnmapper<T> rowUnmapper, TableDescription tableDescription,
-                              final SqlGeneratorFactory sqlGeneratorFactory) {
-        this.sqlGeneratorFactory = sqlGeneratorFactory;
+                              final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
         Assert.notNull(rowMapper);
         Assert.notNull(tableDescription);
 
@@ -91,6 +84,8 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
         this.rowUnmapper = rowUnmapper != null ? rowUnmapper : new UnsupportedRowUnmapper<T>();
         this.rowMapper = rowMapper;
         this.tableDescription = tableDescription;
+        this.sqlGenerator = sqlGeneratorFactory.getGenerator(dataSource);
+        this.jdbcOps = new JdbcTemplate(dataSource);
     }
 
     @SuppressWarnings("unchecked")
@@ -112,38 +107,8 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
     }
 
     public BaseJdbcRepository(RowMapper<T> rowMapper, RowUnmapper<T> rowUnmapper,
-                              String tableName, final SqlGeneratorFactory sqlGeneratorFactory) {
-        this(rowMapper, rowUnmapper, new TableDescription(tableName, "id"), sqlGeneratorFactory);
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        Assert.notNull(dataSource, "dataSource must be provided");
-
-        if (jdbcOps == null) {
-            jdbcOps = new JdbcTemplate(dataSource);
-        }
-        if (sqlGenerator == null) {
-            sqlGenerator = sqlGeneratorFactory.getGenerator(dataSource);
-        }
-        initialized = true;
-    }
-
-    /**
-     * @param dataSource The DataSource to use (required).
-     * @throws IllegalStateException if invoked after initialization (i.e. after
-     *                               {@link #afterPropertiesSet()} has been invoked).
-     */
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        throwOnChangeAfterInitialization("dataSource");
-        this.dataSource = dataSource;
-    }
-
-    private void throwOnChangeAfterInitialization(String propertyName) {
-        if (initialized) {
-            throw new IllegalStateException(propertyName + " should not be changed after initialization");
-        }
+                              String tableName, String idColumn, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        this(rowMapper, rowUnmapper, new TableDescription(tableName, idColumn), sqlGeneratorFactory, dataSource);
     }
 
     ////////// Repository methods //////////
@@ -271,8 +236,6 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
         return postInsert(entity, key.getKey());
     }
 
-    ////////// Getters //////////
-
     private <S extends T> S insertWithManuallyAssignedKey(S entity, Map<String, Object> columns) {
         String insertQuery = sqlGenerator.insert(tableDescription, columns);
         Object[] queryParams = columns.values().toArray();
@@ -372,7 +335,7 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
         jdbcOps.update(sqlGenerator.deleteAll(tableDescription));
     }
 
-    private List<ID> ids(Iterable<? extends T> entities) {
+    protected List<ID> ids(Iterable<? extends T> entities) {
         List<ID> ids = new ArrayList<>();
 
         for (T entity : entities) {
@@ -386,32 +349,5 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
         String query = sqlGenerator.selectAll(tableDescription, null, page);
 
         return new PageImpl<>(jdbcOps.query(query, rowMapper), page, count());
-    }
-
-    protected JdbcOperations getJdbcOperations() {
-        return jdbcOps;
-    }
-
-    /**
-     * @param jdbcOps If not set, {@link JdbcTemplate} is created.
-     * @throws IllegalStateException if invoked after initialization (i.e. after
-     *                               {@link #afterPropertiesSet()} has been invoked).
-     */
-    @Autowired(required = false)
-    public void setJdbcOperations(JdbcOperations jdbcOps) {
-        throwOnChangeAfterInitialization("jdbcOperations");
-        this.jdbcOps = jdbcOps;
-    }
-
-    protected SqlGenerator getSqlGenerator() {
-        return sqlGenerator;
-    }
-
-    protected TableDescription getTableDesc() {
-        return tableDescription;
-    }
-
-    protected JdbcOperations jdbc() {
-        return jdbcOps;
     }
 }

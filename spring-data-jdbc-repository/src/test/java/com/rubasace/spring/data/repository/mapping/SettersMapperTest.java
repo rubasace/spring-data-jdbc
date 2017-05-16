@@ -38,7 +38,7 @@ public class SettersMapperTest {
     @Test
     public void shouldMapSettersCorrectly() throws NoSuchMethodException {
 
-        Map<String, Method> methods = SettersMapper.createSettersMap(TestEntity.class);
+        Map<String, Method> methods = SettersMapper.createSettersMapForDatabase(TestEntity.class);
         Method setId = TestEntity.class.getDeclaredMethod("setId", Long.class);
         Method setImportant = TestEntity.class.getDeclaredMethod("setImportant", boolean.class);
         Method setValid = TestEntity.class.getDeclaredMethod("setValid", Boolean.class);
@@ -54,14 +54,14 @@ public class SettersMapperTest {
     @Test
     public void shouldIgnoreTransientAnnotatedFields() {
 
-        Map<String, Method> methods = SettersMapper.createSettersMap(AnnotatedTestEntity.class);
+        Map<String, Method> methods = SettersMapper.createSettersMapForDatabase(AnnotatedTestEntity.class);
         assertFalse(methods.keySet().contains("name"));
     }
 
     @Test
     public void shouldProcessFieldAnnotation() {
 
-        Map<String, Method> methods = SettersMapper.createSettersMap(AnnotatedTestEntity.class);
+        Map<String, Method> methods = SettersMapper.createSettersMapForDatabase(AnnotatedTestEntity.class);
         assertTrue(methods.keySet().contains("validated"));
         assertFalse(methods.keySet().contains("valid"));
     }

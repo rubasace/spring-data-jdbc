@@ -62,7 +62,7 @@ class DerbyTestConfig extends AbstractTestConfig {
 
     @Bean
     CommentRepository commentRepository() {
-        new CommentRepository(new TableDescription('COMMENTS', 'ID'), sqlGeneratorFactory())
+        new CommentRepository(new TableDescription('COMMENTS', 'ID'), sqlGeneratorFactory(),)
     }
 
     @Bean
@@ -71,7 +71,7 @@ class DerbyTestConfig extends AbstractTestConfig {
                 tableName: 'COMMENTS',
                 fromClause: 'COMMENTS JOIN USERS ON COMMENTS.user_name = USERS.user_name',
                 pkColumns: ['ID']
-        ), sqlGeneratorFactory())
+        ), sqlGeneratorFactory(),)
     }
 
     @Bean

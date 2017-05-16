@@ -15,7 +15,7 @@ import java.util.List;
 public class ExtendableJdbcRepository<T, ID extends Serializable> extends ReflectionJdbcRepository<T, ID> {
 
     public ExtendableJdbcRepository(final Class<T> entityClass, final SqlGeneratorFactory sqlGeneratorFactory) {
-        super(entityClass, sqlGeneratorFactory);
+        super(entityClass, sqlGeneratorFactory, );
     }
 
     protected boolean exists(String whereClause, Object... args) {

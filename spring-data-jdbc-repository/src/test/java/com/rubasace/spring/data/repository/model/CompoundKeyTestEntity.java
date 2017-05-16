@@ -18,9 +18,17 @@
 
 package com.rubasace.spring.data.repository.model;
 
-public class PersistableEntity implements JdbcPersistable {
+import com.rubasace.spring.data.repository.annotation.IdClass;
+import org.springframework.data.annotation.Id;
 
-    private Long longId;
+@IdClass(CompoundKey.class)
+public class CompoundKeyTestEntity {
+
+    @Id
+    private Long id1;
+
+    @Id
+    private Long id2;
 
     private boolean important;
 
@@ -28,7 +36,21 @@ public class PersistableEntity implements JdbcPersistable {
 
     private String name;
 
-    private boolean isNew;
+    public Long getId1() {
+        return id1;
+    }
+
+    public void setId1(final Long id1) {
+        this.id1 = id1;
+    }
+
+    public Long getId2() {
+        return id2;
+    }
+
+    public void setId2(final Long id2) {
+        this.id2 = id2;
+    }
 
     public boolean isImportant() {
         return important;
@@ -52,23 +74,5 @@ public class PersistableEntity implements JdbcPersistable {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public Long getLongId() {
-        return longId;
-    }
-
-    public void setLongId(final Long longId) {
-        this.longId = longId;
-    }
-
-    @Override
-    public boolean isNew() {
-        return isNew;
-    }
-
-    @Override
-    public void setNew(final boolean isNew) {
-        this.isNew = isNew;
     }
 }

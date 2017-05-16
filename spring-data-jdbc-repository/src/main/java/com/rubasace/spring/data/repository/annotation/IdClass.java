@@ -17,6 +17,7 @@
  */
 package com.rubasace.spring.data.repository.annotation;
 
+import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -54,5 +55,5 @@ public @interface IdClass {
     /**
      * Primary key class
      */
-    Class<?> value();
+    Class<? extends Serializable> value();
 }

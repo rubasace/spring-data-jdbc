@@ -23,6 +23,7 @@ import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -59,13 +60,13 @@ public class CommentWithUserRepository extends BaseJdbcRepository<CommentWithUse
         }
     };
 
-    public CommentWithUserRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
+    public CommentWithUserRepository(final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
         this(new TableDescription(
-                "COMMENTS", "COMMENTS JOIN USERS ON COMMENTS.user_name = USERS.user_name", "id"), sqlGeneratorFactory);
+                "COMMENTS", "COMMENTS JOIN USERS ON COMMENTS.user_name = USERS.user_name", "id"), sqlGeneratorFactory, dataSource);
     }
 
-    public CommentWithUserRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory) {
-        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory);
+    public CommentWithUserRepository(TableDescription table, final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        super(ROW_MAPPER, ROW_UNMAPPER, table, sqlGeneratorFactory, dataSource);
     }
 
 

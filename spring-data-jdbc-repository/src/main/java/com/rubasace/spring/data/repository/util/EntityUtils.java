@@ -2,10 +2,10 @@ package com.rubasace.spring.data.repository.util;
 
 import com.rubasace.spring.data.repository.EntityType;
 import com.rubasace.spring.data.repository.TableDescription;
-import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
-import com.rubasace.spring.data.repository.model.JdbcPersistable;
-import com.rubasace.spring.data.repository.model.JdbcPersistableEntityInformation;
-import com.rubasace.spring.data.repository.model.JdbcReflectionEntityInformation;
+import com.rubasace.spring.data.repository.information.AbstractJdbcEntityInformation;
+import com.rubasace.spring.data.repository.information.JdbcPersistableEntityInformation;
+import com.rubasace.spring.data.repository.information.JdbcReflectionEntityInformation;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.repository.core.EntityInformation;
 
 import java.io.Serializable;
@@ -19,11 +19,14 @@ public class EntityUtils {
 
     private static final String DEFAULT_SELECT_CLAUSE = "*";
 
-    private static Map<Class<?>, JdbcEntityInformation> entityInformationCache;
+    private static Map<Class<?>, AbstractJdbcEntityInformation> entityInformationCache;
 
     static {
         // TODO use guava for synchronized?
         entityInformationCache = new WeakHashMap<>();
+    }
+
+    private EntityUtils() {
     }
 
     public static TableDescription getTableDescription(Class<?> entityClass) {
@@ -41,7 +44,7 @@ public class EntityUtils {
         return SQLJavaNamingUtils.getTableNameFromJavaClass(entityClass.getSimpleName());
     }
 
-    // TODO use annotations and have in count multiple Ids
+    // TODO use annotations and take in count multiple Ids
     public static List<String> getIdColumnNames(Class<?> entityClass) {
         try {
             List<Field> pkFields = getPkFields(entityClass);
@@ -66,7 +69,7 @@ public class EntityUtils {
 
     //TODO add @Cacheable probably
     @SuppressWarnings("unchecked")
-    public static <T, ID extends Serializable> JdbcEntityInformation getEntityInformation(Class<T> entityClass) {
+    public static <T, ID extends Serializable> AbstractJdbcEntityInformation getEntityInformation(Class<T> entityClass) {
         if (entityClass == null) {
             return null;
         }
@@ -74,9 +77,9 @@ public class EntityUtils {
             return entityInformationCache.get(entityClass);
         }
         @SuppressWarnings("rawtypes")
-        JdbcEntityInformation entityInfo;
-        if (JdbcPersistable.class.isAssignableFrom(entityClass)) {
-            entityInfo = new JdbcPersistableEntityInformation<>((Class<JdbcPersistable>) entityClass);
+        AbstractJdbcEntityInformation entityInfo;
+        if (Persistable.class.isAssignableFrom(entityClass)) {
+            entityInfo = new JdbcPersistableEntityInformation<>((Class<Persistable>) entityClass);
         } else {
             entityInfo = new JdbcReflectionEntityInformation<>(entityClass);
         }
@@ -85,9 +88,9 @@ public class EntityUtils {
     }
 
     public static <T, ID extends Serializable> EntityType getEntityType(EntityInformation<T, ID> information) {
-        if (!(information instanceof JdbcEntityInformation)) {
+        if (!(information instanceof AbstractJdbcEntityInformation)) {
             throw new RuntimeException("Don't know how to retrieve entity type");
         }
-        return ((JdbcEntityInformation<T, ID>) information).getEntityType();
+        return ((AbstractJdbcEntityInformation<T, ID>) information).getEntityType();
     }
 }

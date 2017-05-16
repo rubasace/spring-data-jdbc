@@ -1,6 +1,6 @@
 package com.rubasace.spring.data.repository.strategy.crud;
 
-import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
+import com.rubasace.spring.data.repository.information.AbstractJdbcEntityInformation;
 import com.rubasace.spring.data.repository.util.GeneratedValueUtil;
 import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
 import org.springframework.data.repository.core.EntityInformation;
@@ -21,7 +21,7 @@ public class AutoIncrementRepositoryStrategy extends AbstractRepositoryStrategy 
 
     // TODO implement custom EntityInformation for avoiding this hack
     private Method getIdSetter() {
-        JdbcEntityInformation info = ((JdbcEntityInformation) getEntityInformation());
+        AbstractJdbcEntityInformation info = ((AbstractJdbcEntityInformation) getEntityInformation());
         Field idField = (Field) info.getIdFields().get(0);
         Class<?> entityClass = info.getJavaType();
         return ReflectionMethodsUtils.findSetterMethod(idField, entityClass);

@@ -22,6 +22,7 @@ import com.rubasace.spring.data.repository.sql.SqlGeneratorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,8 +56,8 @@ public class UserRepository extends BaseJdbcRepository<User, String> {
         }
     };
 
-    public UserRepository(final SqlGeneratorFactory sqlGeneratorFactory) {
-        super(ROW_MAPPER, ROW_UNMAPPER, "USERS", "user_name", sqlGeneratorFactory);
+    public UserRepository(final SqlGeneratorFactory sqlGeneratorFactory, final DataSource dataSource) {
+        super(ROW_MAPPER, ROW_UNMAPPER, "USERS", "user_name", sqlGeneratorFactory, dataSource);
     }
 
 

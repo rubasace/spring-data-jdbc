@@ -1,6 +1,6 @@
 package com.rubasace.spring.data.repository.strategy.id;
 
-import com.rubasace.spring.data.repository.model.JdbcEntityInformation;
+import com.rubasace.spring.data.repository.information.AbstractJdbcEntityInformation;
 import com.rubasace.spring.data.repository.util.ReflectionMethodsUtils;
 
 import java.lang.reflect.Field;
@@ -11,10 +11,10 @@ import java.util.List;
 
 class CompoundIdToArrayStrategy implements IdToArrayStrategy {
 
-    private final JdbcEntityInformation entityInformation;
+    private final AbstractJdbcEntityInformation entityInformation;
     private List<Method> methods;
 
-    CompoundIdToArrayStrategy(final JdbcEntityInformation entityInformation) {
+    CompoundIdToArrayStrategy(final AbstractJdbcEntityInformation entityInformation) {
         this.entityInformation = entityInformation;
         prepareMethods();
     }
