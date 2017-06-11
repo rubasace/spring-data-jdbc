@@ -61,7 +61,6 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
     protected TableDescription tableDescription;
     protected RowMapper<T> rowMapper;
     protected RowUnmapper<T> rowUnmapper;
-    // Read-only after initialization (invoking afterPropertiesSet()).
     protected JdbcOperations jdbcOps;
 
     public BaseJdbcRepository(RowMapper<T> rowMapper, RowUnmapper<T> rowUnmapper,
@@ -91,8 +90,8 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable> implements 
     @SuppressWarnings("unchecked")
     private EntityInformation<T, ID> createEntityInformation() {
 
-        Class<T> entityType = (Class<T>) GenericTypeResolver.resolveTypeArguments(getClass(),
-                                                                                  JdbcRepository.class)[0];
+        Class<T> entityType = (Class<T>) GenericTypeResolver
+                .resolveTypeArguments(getClass(), JdbcRepository.class)[0];
 
         return createEntityInformation(entityType);
     }

@@ -93,6 +93,7 @@ public abstract class AbstractJdbcEntityInformation<T, ID extends Serializable> 
         return entityType;
     }
 
+    //TODO see how to give support to compound ID from keyClass
     @Override
     @SuppressWarnings("unchecked")
     public ID getId(T entity) {

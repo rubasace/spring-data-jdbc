@@ -41,7 +41,7 @@ class IdMapper<T, ID extends Serializable> {
     private final Map<String, Method> gettersMap;
     private final Map<String, Method> settersMap;
 
-    public IdMapper(final Class<T> entityClass, final Class<ID> idClass) {
+    IdMapper(final Class<T> entityClass, final Class<ID> idClass) {
         this.idClass = idClass;
         settersMap = SettersMapper.createStandardSettersMap(idClass);
         gettersMap = generateGettersMap(entityClass);
